@@ -1,0 +1,19 @@
+# Terraform files
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Logs
+*.log
+
+# Ignore local settings
+*.tfvars
+*.tfvars.json
+
+# Ignore IDE-specific files
+.idea/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
