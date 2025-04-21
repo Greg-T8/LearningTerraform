@@ -16,8 +16,8 @@
 
 **Scenario**: Use Terraform to deploy a virtual machine (EC2 instance) on AWS.
 
-![Terraform Hello World Overview](./ch01/1-hello-terraform-ec2/20250421-ch01-terraform-hello-overview.svg)]
+<img src="./ch01/1-hello-terraform-ec2/20250421-ch01-terraform-hello-overview.svg" width="700"/>
 
-**Sequence**: 
+The sequence of steps to deploy the EC2 instance using Terraform:
 
-![Terraform Hello World Sequence](./ch01/1-hello-terraform-ec2/20250421-ch01-terraform-hello-sequence.svg)
+<img src="./ch01/1-hello-terraform-ec2/20250421-ch01-terraform-hello-sequence.svg" alt="Sequence diagram showing the steps to deploy an EC2 instance using Terraform" width="600"/>
