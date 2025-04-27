@@ -43,7 +43,7 @@ resource "aws_instance" "helloworld" {
 ```
 The first line declares a resource and exactly two labels, the first is the type of resource (aws_instance) and the second is a name for the resource (helloworld). Together the type and name form a unique identifier for the resource.
 
-![Syntax of a resource block](./images/2025042701-ResourceSyntax.svg)
+![Syntax of a resource block](./images/2025042702-ResourceSyntax.svg)
 
 The remaining lines of the resource block are called arguments.
 

@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="qcTQSnEsVgShE5r088Ef" name="Overview">
-        <mxGraphModel dx="3810" dy="1164" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="3810" dy="1425" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -162,43 +162,43 @@
             </root>
         </mxGraphModel>
     </diagram>
-    <diagram id="A6SNCAfP9bNBoUVGGDjM" name="Resource Syntax">
-        <mxGraphModel dx="2610" dy="364" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <diagram id="4snQEs8TTzSoFR4IcepU" name="Resource Syntax">
+        <mxGraphModel dx="2610" dy="625" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="VVLRiLUMMrQrlj_Iv_hF-1" value="&lt;font face=&quot;Fira Code&quot;&gt;resource &quot;aws_instance&quot; &quot;helloworld&quot; { ... }&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);points=[[0,0,0,0,0],[0,0.25,0,0,0],[0,0.5,0,0,0],[0,0.75,0,0,0],[0,1,0,0,0],[0.07,0.14,0,0,0],[0.21,0.14,0,0,0],[0.25,1,0,0,0],[0.25,1,0,0,29],[0.51,1,0,0,0],[0.55,0,0,0,0],[0.77,0.02,0,0,0],[0.78,1,0,0,22],[1,0,0,0,0],[1,0.25,0,0,0],[1,0.5,0,0,0],[1,0.75,0,0,0],[1,1,0,0,0]];movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-1" value="&lt;font face=&quot;Fira Code&quot;&gt;resource &quot;aws_instance&quot; &quot;helloworld&quot; { ... }&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);points=[[0,0,0,0,0],[0,0.25,0,0,0],[0,0.5,0,0,0],[0,0.75,0,0,0],[0,1,0,0,0],[0.07,0.14,0,0,0],[0.21,0.14,0,0,0],[0.25,1,0,0,0],[0.25,1,0,0,29],[0.51,1,0,0,0],[0.55,0,0,0,0],[0.77,0.02,0,0,0],[0.78,1,0,0,22],[1,0,0,0,0],[1,0.25,0,0,0],[1,0.5,0,0,0],[1,0.75,0,0,0],[1,1,0,0,0]];movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
                     <mxGeometry x="-7" y="514" width="549.67" height="51" as="geometry"/>
                 </mxCell>
-                <mxCell id="79ClNpIPGQ9T07Ho5xMH-21" value="&lt;font face=&quot;Verdana&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Element&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-2" value="&lt;font face=&quot;Verdana&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Element&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
                     <mxGeometry x="38.503694661458255" y="472.9981669108073" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="79ClNpIPGQ9T07Ho5xMH-25" value="&lt;font face=&quot;Verdana&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Type&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-3" value="&lt;font face=&quot;Verdana&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Type&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
                     <mxGeometry x="175.00369466145827" y="567.9981669108073" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="79ClNpIPGQ9T07Ho5xMH-29" value="&lt;font face=&quot;Verdana&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Name&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-4" value="&lt;font face=&quot;Verdana&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Name&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
                     <mxGeometry x="326.00369466145827" y="476.9981669108073" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="79ClNpIPGQ9T07Ho5xMH-69" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;flipV=1;flipH=0;labelBackgroundColor=none;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-5" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;flipV=1;flipH=0;labelBackgroundColor=none;" parent="1" vertex="1">
                     <mxGeometry x="60" y="477" width="17" height="84" as="geometry"/>
                 </mxCell>
-                <mxCell id="79ClNpIPGQ9T07Ho5xMH-70" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;flipV=1;flipH=1;labelBackgroundColor=none;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-6" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;flipV=1;flipH=1;labelBackgroundColor=none;" parent="1" vertex="1">
                     <mxGeometry x="194.5" y="486" width="17" height="150" as="geometry"/>
                 </mxCell>
-                <mxCell id="79ClNpIPGQ9T07Ho5xMH-72" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;flipV=1;flipH=0;labelBackgroundColor=none;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-7" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;flipV=1;flipH=0;labelBackgroundColor=none;" parent="1" vertex="1">
                     <mxGeometry x="347.5" y="456.5" width="17" height="125" as="geometry"/>
                 </mxCell>
-                <mxCell id="79ClNpIPGQ9T07Ho5xMH-73" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;flipV=1;flipH=1;labelBackgroundColor=none;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-8" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;flipV=1;flipH=1;labelBackgroundColor=none;" parent="1" vertex="1">
                     <mxGeometry x="264.5" y="460" width="17" height="290" as="geometry"/>
                 </mxCell>
-                <mxCell id="79ClNpIPGQ9T07Ho5xMH-74" value="&lt;font face=&quot;Verdana&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Identifier&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
+                <mxCell id="uHKEiKr6Mz4mT_xvdaVT-9" value="&lt;font face=&quot;Verdana&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Identifier&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);labelBackgroundColor=none;strokeWidth=2;" parent="1" vertex="1">
                     <mxGeometry x="243.00369466145827" y="609.9981669108073" width="60" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram id="kBqTkXTFG-zKo8g0kqYB" name="Inputs and Outputs">
-        <mxGraphModel dx="2610" dy="764" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2610" dy="1025" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
