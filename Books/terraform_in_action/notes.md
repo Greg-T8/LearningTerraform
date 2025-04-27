@@ -12,7 +12,7 @@
 ## Helpful Commands
 
 ```cmd
-
+terraform init      # Initialize a working directory containing Terraform configuration files
 
 ```
 
@@ -70,3 +70,17 @@ Things to note:
 - Providers only have inputs, no outputs.
 
 ![Provider Operation](./images/20250427-ProviderOperation.svg)
+
+#### 1.2.3 Initializing Terraform
+
+Run `terraform init` to initialize Terraform and download the AWS provider plugin:  
+<img src='images/20250427065233.png' width='550'/>
+
+#### 1.2.4 Deploying the EC2 Instance
+
+Run `terraform apply` to create the EC2 instance. Terraform will prompt for confirmation before proceeding with the deployment. After confirming, Terraform will create the EC2 instance and display the output.
+
+<img src='images/20250427065628.png' width='550'/>
+
+Forgot to configure credentials...
+
