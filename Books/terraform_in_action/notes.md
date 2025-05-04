@@ -13,6 +13,9 @@
 
 ```cmd
 terraform init      # Initialize a working directory containing Terraform configuration files
+terraform apply     # Create or update infrastructure as defined in the configuration files
+terraform show      # Show the current state of the infrastructure managed by Terraform
+
 
 ```
 
@@ -98,6 +101,15 @@ Information about the created resource is stored in the Terraform state file wit
 
 <img src='images/20250504075040.png' width='650'/>
 
+> IMPORTANT: Do not manuaually edit or delete the `.tfstate` file. Terraform uses this file to keep track of the resources it manages. If you edit or delete it, Terraform may lose track of the resources and cause issues in future operations.
+
 Use `terraform show` to display the current state of the infrastructure managed by Terraform. This command will show the details of the EC2 instance created in the previous step.
 
 <img src='images/20250504075140.png' width='550'/>
+
+##### 1.2.5 Destroying the EC2 Instance
+
+Run `terraform destroy` to remove the EC2 instance created in the previous step. 
+
+<img src='images/20250504075742.png' width='550'/>
+
