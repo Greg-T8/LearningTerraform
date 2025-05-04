@@ -113,3 +113,10 @@ Run `terraform destroy` to remove the EC2 instance created in the previous step.
 
 <img src='images/20250504075742.png' width='550'/>
 
+#### 1.3 Brave new "Hello Terraform"
+
+Terraform can also provision resources dynamically based on the results of external queries and data lookups.
+
+*Data sources* are elements that allow you to fetch data at runtime and perform computations.
+
+![Data Sources](./images/20250504-Data_Sources.svg)
