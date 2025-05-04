@@ -119,4 +119,42 @@ Terraform can also provision resources dynamically based on the results of exter
 
 *Data sources* are elements that allow you to fetch data at runtime and perform computations.
 
+In the following example, we pass the output value into `aws_instance` so that we don't have to statically set the AMI in the EC2 instance resource configuration.
+
 ![Data Sources](./images/20250504-Data_Sources.svg)
+
+```hcl
+provider "aws" {
+    profile = "tf-user"
+    region = "us-west-2"
+}
+
+# Data sources are declared having exactly two labels
+# The type, "aws_ami", and name, "ubuntu", must be unique within the module
+data "aws_ami" "ubuntu" {
+    most_recent = true
+    filter {
+        name = "name"
+        values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    }
+    owners = ["099720109477"]       # Represents the owner of the AMI, in this case, Canonical
+}
+
+# Resources are declared having exactly two labels
+resource "aws_instance" "helloworld" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
+  tags          = {
+    Name = "HelloWorld"
+  }
+}
+```
+
+Use the following commands to create, show, and destroy the EC2 instance:
+
+```powershell
+terraform apply         # Create the EC2 instance
+terraform show          # Show the current state of the infrastructure
+terraform destroy       # Remove the EC2 instance
+```
+<img src='images/20250504093053.png' width='850'/>
