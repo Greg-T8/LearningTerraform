@@ -16,10 +16,14 @@ terraform init      # Initialize a working directory containing Terraform config
 
 ```
 
-## Terraform Resources
+**Terraform Resources:**  
 - [Install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
-### 1.2 Hello Terraform Example
+## Part 1: Terraform Bootcamp
+
+### Chapter 1: Getting Started with Terraform
+
+#### 1.2 Hello Terraform Example
 
 **Scenario**: Use Terraform to deploy a virtual machine (EC2 instance) on AWS.
 
@@ -29,7 +33,7 @@ The sequence of steps to deploy the EC2 instance using Terraform:
 
 <img src="./images/20250421-ch01-terraform-hello-sequence.svg" alt="Sequence diagram showing the steps to deploy an EC2 instance using Terraform" width="600"/>
 
-#### 1.2.1 Writing the Configuration
+##### 1.2.1 Writing the Configuration
 
 The HashiCorp Configuration Language (HCL)  is used to declare an aws_instance resource in a Terraform configuration file. The configuration file is a text file with a `.tf` extension. The file contains the following code:
 ```hcl
@@ -49,7 +53,7 @@ The remaining lines of the resource block are called arguments.
 
 ![Sample inputs and outputs](./images/2025042701-InputsOutputs.svg)
 
-#### 1.2.2 Configuring the AWS Provider
+##### 1.2.2 Configuring the AWS Provider
 
 Providers can be either `aws`, `azurerm`, or `google`. 
 
@@ -71,16 +75,29 @@ Things to note:
 
 ![Provider Operation](./images/20250427-ProviderOperation.svg)
 
-#### 1.2.3 Initializing Terraform
+##### 1.2.3 Initializing Terraform
 
 Run `terraform init` to initialize Terraform and download the AWS provider plugin:  
 <img src='images/20250427065233.png' width='550'/>
 
-#### 1.2.4 Deploying the EC2 Instance
+##### 1.2.4 Deploying the EC2 Instance
 
 Run `terraform apply` to create the EC2 instance. Terraform will prompt for confirmation before proceeding with the deployment. After confirming, Terraform will create the EC2 instance and display the output.
 
 <img src='images/20250427065628.png' width='550'/>
 
-Forgot to configure credentials...
+After configuring AWS credentials...
 
+<img src='images/20250504074652.png' width='550'/>
+
+Confirm resource creation: 
+
+<img src='images/20250504074915.png' width='650'/>
+
+Information about the created resource is stored in the Terraform state file with the `.tfstate` extension:
+
+<img src='images/20250504075040.png' width='650'/>
+
+Use `terraform show` to display the current state of the infrastructure managed by Terraform. This command will show the details of the EC2 instance created in the previous step.
+
+<img src='images/20250504075140.png' width='550'/>
