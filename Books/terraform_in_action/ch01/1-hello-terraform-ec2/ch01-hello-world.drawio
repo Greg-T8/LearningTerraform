@@ -392,100 +392,100 @@
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-1" value="aws_ami&lt;br&gt;(data source)" style="whiteSpace=wrap;html=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-1" value="&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(192, 192, 192));&quot;&gt;aws_ami&lt;br&gt;(data source)&lt;/font&gt;" style="whiteSpace=wrap;html=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);" parent="1" vertex="1">
                     <mxGeometry x="-140" y="-96" width="215.18" height="206" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-2" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-2" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="-296" y="-39" as="sourcePoint"/>
                         <mxPoint x="-151" y="-39" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-3" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-3" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="-296" y="11" as="sourcePoint"/>
                         <mxPoint x="-151" y="11" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-4" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-4" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="-296" y="63" as="sourcePoint"/>
                         <mxPoint x="-151" y="63" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-5" value="most_recent" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-5" value="most_recent" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="-398.998916015625" y="-56.99989624023438" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-6" value="filter" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-6" value="filter" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="-367.998916015625" y="-4.999896240234378" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-7" value="owners" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-7" value="owners" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="-376.998916015625" y="47.00010375976562" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-8" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-8" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;" parent="1" vertex="1">
                     <mxGeometry x="-389" y="-160" width="50" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-9" value="Data source arguments" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-9" value="Data source arguments" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="-491" y="-171" width="267.39" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-10" value="aws_instance&lt;br&gt;(resource)" style="whiteSpace=wrap;html=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-10" value="aws_instance&lt;br&gt;(resource)" style="whiteSpace=wrap;html=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);align=center;verticalAlign=middle;" parent="1" vertex="1">
                     <mxGeometry x="374" y="64.5" width="215.18" height="206" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-11" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-11" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="103" y="91" as="sourcePoint"/>
                         <mxPoint x="359" y="91" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-12" value="ami" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-12" value="ami" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="266.001083984375" y="100.00010375976564" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-13" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-13" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="103" y="-76" as="sourcePoint"/>
                         <mxPoint x="248" y="-76" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-14" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-14" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="103" y="-37" as="sourcePoint"/>
                         <mxPoint x="248" y="-37" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-15" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-15" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="103" y="3" as="sourcePoint"/>
                         <mxPoint x="248" y="3" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-16" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-16" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="103" y="47" as="sourcePoint"/>
                         <mxPoint x="248" y="47" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-17" value="owners" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-17" value="owners" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="264.001083984375" y="32.00010375976562" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-18" value="filter" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-18" value="filter" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="264.001083984375" y="-12.999896240234378" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-19" value="most_recent" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-19" value="most_recent" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="264" y="-54" width="133" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-20" value="id" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-20" value="id" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="248.001083984375" y="-95.99989624023438" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-21" value="Data source attributes" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-21" value="Data source attributes" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="189" y="-198" width="267.39" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-22" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-22" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;" parent="1" vertex="1">
                     <mxGeometry x="292" y="-190" width="50" height="116" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-23" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=-90;" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-23" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=-90;" parent="1" vertex="1">
                     <mxGeometry x="113.5" y="246" width="50" height="205" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-24" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;edgeStyle=elbowEdgeStyle;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-24" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;edgeStyle=elbowEdgeStyle;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="119" y="275" as="sourcePoint"/>
                         <mxPoint x="361" y="158" as="targetPoint"/>
@@ -494,7 +494,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-25" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;edgeStyle=elbowEdgeStyle;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-25" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;edgeStyle=elbowEdgeStyle;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="200" y="276" as="sourcePoint"/>
                         <mxPoint x="361" y="216" as="targetPoint"/>
@@ -503,55 +503,55 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-26" value="instance_type" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-26" value="instance_type" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="73.001083984375" y="282.00010375976564" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-27" value="tags" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-27" value="tags" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="182.001083984375" y="284.00010375976564" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-28" value="Resource arguments" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-28" value="Resource arguments" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="38.000000000000014" y="378.5" width="214.39" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-29" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-29" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="600" y="108.5" as="sourcePoint"/>
                         <mxPoint x="745" y="108.5" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-30" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-30" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="600" y="147.5" as="sourcePoint"/>
                         <mxPoint x="745" y="147.5" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-31" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-31" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="600" y="187.5" as="sourcePoint"/>
                         <mxPoint x="745" y="187.5" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-32" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" edge="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-32" value="" style="shape=flexArrow;endArrow=classic;html=1;strokeColor=light-dark(#2B5CA8,#5881BA);strokeWidth=2;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #FFFFFF);endSize=12;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="600" y="231.5" as="sourcePoint"/>
                         <mxPoint x="745" y="231.5" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-33" value="tags" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-33" value="tags" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="761.001083984375" y="216.50010375976564" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-34" value="instance_type" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-34" value="instance_type" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="761.001083984375" y="171.50010375976564" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-35" value="ami" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-35" value="ami" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="761" y="130.5" width="133" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-36" value="id" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-36" value="id" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="745.001083984375" y="88.50010375976562" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-37" value="Resource attributes" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-37" value="Resource attributes" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);" parent="1" vertex="1">
                     <mxGeometry x="674" y="-20" width="267.39" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="BasSoUmH6YkPNEIvkhXA-38" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;" vertex="1" parent="1">
+                <mxCell id="BasSoUmH6YkPNEIvkhXA-38" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rounded=1;strokeColor=light-dark(#000000,#5881BA);fontFamily=Shantell Sans;fontSource=https://fonts.googleapis.com/css?family=Shantell+Sans;fontSize=18;fontColor=light-dark(#000000, #b8b8ba);fillColor=light-dark(#2B5CA8,transparent);rotation=90;" parent="1" vertex="1">
                     <mxGeometry x="777" y="-12" width="50" height="116" as="geometry"/>
                 </mxCell>
             </root>
