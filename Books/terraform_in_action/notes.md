@@ -9,18 +9,36 @@
 
 </details>
 
+<!-- omit from toc -->
 ## Helpful Commands
 
 ```cmd
 terraform init      # Initialize a working directory containing Terraform configuration files
 terraform apply     # Create or update infrastructure as defined in the configuration files
 terraform show      # Show the current state of the infrastructure managed by Terraform
-
-
 ```
 
-**Terraform Resources:**  
+<!-- omit from toc -->
+## Terraform Resources
 - [Install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+
+<!-- omit from toc -->
+## Contents
+
+* [Part 1: Terraform Bootcamp](#part-1-terraform-bootcamp)
+  * [Chapter 1: Getting Started with Terraform](#chapter-1-getting-started-with-terraform)
+    * [1.2 Hello Terraform Example](#12-hello-terraform-example)
+      * [1.2.1 Writing the Configuration](#121-writing-the-configuration)
+      * [1.2.2 Configuring the AWS Provider](#122-configuring-the-aws-provider)
+      * [1.2.3 Initializing Terraform](#123-initializing-terraform)
+      * [1.2.4 Deploying the EC2 Instance](#124-deploying-the-ec2-instance)
+      * [1.2.5 Destroying the EC2 Instance](#125-destroying-the-ec2-instance)
+    * [1.3 Brave new "Hello Terraform"](#13-brave-new-hello-terraform)
+  * [Chapter 2: Life Cycle of a Terraform Resource](#chapter-2-life-cycle-of-a-terraform-resource)
+    * [2.1 Process Overview](#21-process-overview)
+
+
+
 
 ## Part 1: Terraform Bootcamp
 
@@ -158,3 +176,18 @@ terraform show          # Show the current state of the infrastructure
 terraform destroy       # Remove the EC2 instance
 ```
 <img src='images/20250504093053.png' width='850'/>
+
+
+### Chapter 2: Life Cycle of a Terraform Resource
+
+Fundamentally, Terraform is a state operation tool that performs CRUD operations on managed resources.
+
+Terraform has *local-only resources* that exist only within the confines of Terraform or the machine running Terraform. These resources are not managed by any provider and are not created or destroyed in the cloud. They are used to manage local state and configuration.
+
+Examples include reosurces for creating private keys, self-signed certificates,  and random ids.
+
+#### 2.1 Process Overview
+
+We will use the `local_file` resource from the `Local` provider to create, read, update, and delete a text file.
+
+![Local Provider](./images/2025050701.svg)
