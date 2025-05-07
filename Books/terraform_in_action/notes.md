@@ -36,6 +36,7 @@ terraform show      # Show the current state of the infrastructure managed by Te
     * [1.3 Brave new "Hello Terraform"](#13-brave-new-hello-terraform)
   * [Chapter 2: Life Cycle of a Terraform Resource](#chapter-2-life-cycle-of-a-terraform-resource)
     * [2.1 Process Overview](#21-process-overview)
+    * [2.1.1 Life cycle function hooks](#211-life-cycle-function-hooks)
 
 
 
@@ -191,3 +192,15 @@ Examples include reosurces for creating private keys, self-signed certificates, 
 We will use the `local_file` resource from the `Local` provider to create, read, update, and delete a text file.
 
 ![Local Provider](./images/2025050701.svg)
+
+Here's a look at the workflow:
+
+![Local Provider Workflow](./images/2025050702.svg)
+
+#### 2.1.1 Life cycle function hooks
+
+All Terraform resources implement the resource schema interface. This schema mandates CRUD function hooks, one each for `Create()`, `Read()`, `Update()`, and `Delete()` operations. 
+
+Because it's a resource, `local_file` also implements this interface.
+
+![Local Provider](./images/2025050703.svg)
