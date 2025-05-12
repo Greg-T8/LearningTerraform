@@ -210,7 +210,7 @@ Because it's a resource, `local_file` also implements this interface.
 #### 2.2 Declaring a local file resource
 
 ```hcl
-terraform { 
+terraform {
     required_version = ">= 0.15"
     required_providers {
         local = {
@@ -222,14 +222,15 @@ terraform {
 
 resource "local_file" "literature" {
     filename = "art_of_war.txt"
-<<-EOT      # heredoc syntax; leading whitespace is ignored
-    Sun Tzu said: The art of war is of vital importance to the State.
+    content  = <<-EOT
+        Sun Tzu said: The art of war is of vital importance to the State.
 
-    It is a matter of life and death, a road either to safety or to
-    ruin. Hence it is a subject of inquiry which can on no account be
-    neglected.
+        It is a matter of life and death, a road either to safety or to
+        ruin. Hence it is a subject of inquiry which can on no account be
+        neglected.
     EOT
 }
+
 ```
 **Note:**  
 - The `terrraform` block configures Terraform. Its primary use is version-locking your code, but it can also configure where your state file is stored and where providers are downloaded.
@@ -237,3 +238,19 @@ resource "local_file" "literature" {
 - The `<<-EOT` syntax is called *heredoc* and allows you to write multi-line strings. The `EOT` at the end of the block indicates the end of the heredoc. The leading whitespace is ignored.
 
 #### 2.3 Initializing the workspace
+
+Terraform configuration must always be initialized at least once, but you may have to initialize again if you add new providers or modules.
+
+```cmd
+terraform init
+```
+<img src='images/20250512043832.png' width='550'/>
+
+```cmd
+terraform plan
+```
+<img src='images/20250512044133.png' width='750'/>
+
+Note that Terraform creates a hidden directory for installing plugins and modules:
+
+<img src='images/20250512044332.png' width='500'/>
