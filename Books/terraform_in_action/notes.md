@@ -101,7 +101,7 @@ resource "aws_instance" "helloworld" {
 Things to note:
 - Providers only have inputs, no outputs.
 
-![Provider Operation](./images/20250427-ProviderOperation.svg)
+<img src='images/20250427-ProviderOperation.svg' width='650'/>
 
 ##### 1.2.3 Initializing Terraform
 
@@ -197,11 +197,11 @@ Examples include reosurces for creating private keys, self-signed certificates, 
 
 We will use the `local_file` resource from the `Local` provider to create, read, update, and delete a text file.
 
-![Local Provider](./images/2025050701.svg)
+<img src='images/2025050701.svg' width='750'/>
 
 Here's a look at the workflow:
 
-![Local Provider Workflow](./images/2025050702.svg)
+<img src='images/2025050702.svg' width='750'/>
 
 #### 2.1.1 Life cycle function hooks
 
@@ -209,7 +209,7 @@ All Terraform resources implement the resource schema interface. This schema man
 
 Because it's a resource, `local_file` also implements this interface.
 
-![Local Provider](./images/2025050703.svg)
+<img src='images/2025050703.svg' width='750'/>
 
 #### 2.2 Declaring a local file resource
 
@@ -308,3 +308,5 @@ Three main stages:
 1. Read the configuration and state.
 2. Determine the actions to take.
 3. Output the plan.
+
+<img src='images/20250512-terraform_plan.svg' width='750'/>
