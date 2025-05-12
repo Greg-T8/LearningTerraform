@@ -39,6 +39,10 @@ terraform show      # Show the current state of the infrastructure managed by Te
     - [2.1.1 Life cycle function hooks](#211-life-cycle-function-hooks)
     - [2.2 Declaring a local file resource](#22-declaring-a-local-file-resource)
     - [2.3 Initializing the workspace](#23-initializing-the-workspace)
+    - [2.4 Generating an execution plan](#24-generating-an-execution-plan)
+      - [Enabling Trace Logging](#enabling-trace-logging)
+      - [Troubleshooting slow-running plans](#troubleshooting-slow-running-plans)
+      - [Stages of `terraform plan`](#stages-of-terraform-plan)
 
 
 
@@ -246,11 +250,61 @@ terraform init
 ```
 <img src='images/20250512043832.png' width='550'/>
 
+Note that Terraform creates a hidden directory for installing plugins and modules:
+
+<img src='images/20250512044332.png' width='500'/>
+
+**Tip:** version lock any providers you use to ensure deployments are repeatable.
+
+```hcl
+terraform {
+    required_version = ">= 0.15"
+    required_providers {
+        local = {
+            source = "hashicorp/local"
+            version = "~> 2.0"
+        }
+    }
+}
+```
+
+Lockfile: 
+
+<img src='images/20250512044641.png' width='650'/>
+
+#### 2.4 Generating an execution plan
+
+Always run `terraform plan` before deploying.
+
 ```cmd
 terraform plan
 ```
 <img src='images/20250512044133.png' width='750'/>
 
-Note that Terraform creates a hidden directory for installing plugins and modules:
+##### Enabling Trace Logging
 
-<img src='images/20250512044332.png' width='500'/>
+Plans can fail for many reasons. For verbose logs, you can turn on trace-level logging by setting the `TF_LOG` environment variable to a non-zero value, e.g. `TF_LOG=TRACE`. 
+
+```powershell
+$env:TF_LOG = 'TRACE'
+$env:TF_LOG_PATH = ".\terraform.log"
+```
+<img src='images/20250512045911.png' width='650'/>
+
+##### Troubleshooting slow-running plans
+
+Turn off trace logging and consider increasing parallelism.
+
+```cmd
+terraform plan -parallelism=50
+```
+By default, Terraform uses a parallelism of 10. Note that too high of a parallelism can cause failures like API throttling.
+
+`terraform apply` will need similar tuning.
+
+##### Stages of `terraform plan`
+
+Three main stages:
+1. Read the configuration and state.
+2. Determine the actions to take.
+3. Output the plan.
