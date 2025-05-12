@@ -25,18 +25,20 @@ terraform show      # Show the current state of the infrastructure managed by Te
 <!-- omit from toc -->
 ## Contents
 
-* [Part 1: Terraform Bootcamp](#part-1-terraform-bootcamp)
-  * [Chapter 1: Getting Started with Terraform](#chapter-1-getting-started-with-terraform)
-    * [1.2 Hello Terraform Example](#12-hello-terraform-example)
-      * [1.2.1 Writing the Configuration](#121-writing-the-configuration)
-      * [1.2.2 Configuring the AWS Provider](#122-configuring-the-aws-provider)
-      * [1.2.3 Initializing Terraform](#123-initializing-terraform)
-      * [1.2.4 Deploying the EC2 Instance](#124-deploying-the-ec2-instance)
-      * [1.2.5 Destroying the EC2 Instance](#125-destroying-the-ec2-instance)
-    * [1.3 Brave new "Hello Terraform"](#13-brave-new-hello-terraform)
-  * [Chapter 2: Life Cycle of a Terraform Resource](#chapter-2-life-cycle-of-a-terraform-resource)
-    * [2.1 Process Overview](#21-process-overview)
-    * [2.1.1 Life cycle function hooks](#211-life-cycle-function-hooks)
+- [Part 1: Terraform Bootcamp](#part-1-terraform-bootcamp)
+  - [Chapter 1: Getting Started with Terraform](#chapter-1-getting-started-with-terraform)
+    - [1.2 Hello Terraform Example](#12-hello-terraform-example)
+      - [1.2.1 Writing the Configuration](#121-writing-the-configuration)
+      - [1.2.2 Configuring the AWS Provider](#122-configuring-the-aws-provider)
+      - [1.2.3 Initializing Terraform](#123-initializing-terraform)
+      - [1.2.4 Deploying the EC2 Instance](#124-deploying-the-ec2-instance)
+      - [1.2.5 Destroying the EC2 Instance](#125-destroying-the-ec2-instance)
+    - [1.3 Brave new "Hello Terraform"](#13-brave-new-hello-terraform)
+  - [Chapter 2: Life Cycle of a Terraform Resource](#chapter-2-life-cycle-of-a-terraform-resource)
+    - [2.1 Process Overview](#21-process-overview)
+    - [2.1.1 Life cycle function hooks](#211-life-cycle-function-hooks)
+    - [2.2 Declaring a local file resource](#22-declaring-a-local-file-resource)
+    - [2.3 Initializing the workspace](#23-initializing-the-workspace)
 
 
 
@@ -204,3 +206,34 @@ All Terraform resources implement the resource schema interface. This schema man
 Because it's a resource, `local_file` also implements this interface.
 
 ![Local Provider](./images/2025050703.svg)
+
+#### 2.2 Declaring a local file resource
+
+```hcl
+terraform { 
+    required_version = ">= 0.15"
+    required_providers {
+        local = {
+            source = "hashicorp/local"
+            version = "~> 2.0"
+        }
+    }
+}
+
+resource "local_file" "literature" {
+    filename = "art_of_war.txt"
+<<-EOT      # heredoc syntax; leading whitespace is ignored
+    Sun Tzu said: The art of war is of vital importance to the State.
+
+    It is a matter of life and death, a road either to safety or to
+    ruin. Hence it is a subject of inquiry which can on no account be
+    neglected.
+    EOT
+}
+```
+**Note:**  
+- The `terrraform` block configures Terraform. Its primary use is version-locking your code, but it can also configure where your state file is stored and where providers are downloaded.
+- The second configuration block declares a `local_file` resource and stores text in a file called `art_of_war.txt`. 
+- The `<<-EOT` syntax is called *heredoc* and allows you to write multi-line strings. The `EOT` at the end of the block indicates the end of the heredoc. The leading whitespace is ignored.
+
+#### 2.3 Initializing the workspace
