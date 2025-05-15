@@ -43,6 +43,9 @@ terraform show      # Show the current state of the infrastructure managed by Te
       - [Enabling Trace Logging](#enabling-trace-logging)
       - [Troubleshooting slow-running plans](#troubleshooting-slow-running-plans)
       - [Stages of `terraform plan`](#stages-of-terraform-plan)
+      - [Generating a dependency graph](#generating-a-dependency-graph)
+      - [Inspecting the plan using JSON](#inspecting-the-plan-using-json)
+    - [2.5 Creating the local file resource](#25-creating-the-local-file-resource)
 
 
 
@@ -286,7 +289,7 @@ terraform plan
 Plans can fail for many reasons. For verbose logs, you can turn on trace-level logging by setting the `TF_LOG` environment variable to a non-zero value, e.g. `TF_LOG=TRACE`. 
 
 ```powershell
-$env:TF_LOG = 'TRACE'
+$env:TF_LOG = 'TRACE'       # Other options: DEBUG, INFO, WARN, ERROR
 $env:TF_LOG_PATH = ".\terraform.log"
 ```
 <img src='images/20250512045911.png' width='650'/>
@@ -310,3 +313,50 @@ Three main stages:
 3. Output the plan.
 
 <img src='images/20250512-terraform_plan.svg' width='750'/>
+
+
+##### Generating a dependency graph
+
+Use `terraform graph` to generate a dependency graph for visualizing the relationships between resources. 
+
+```
+terraform graph -type=plan > graph.dot
+terraform graph -type=apply > graph.dot
+```
+**Example:** from `terraform graph -type=plan`:  
+<img src='images/1747304023927.png' width='550'/>
+
+##### Inspecting the plan using JSON
+
+Use the `-out` flag to read the output of `terraform plan` in JSON format. This is a two-step process:
+
+```powershell
+terraform plan -out plan.out
+terraform show -json .\plan.out > plan.json
+```
+<img src='images/1747304426232.png' width='550'/>
+
+#### 2.5 Creating the local file resource
+
+Run `terraform apply` to create the local file resource.
+
+<img src='images/1747304638110.png' width='750'/>
+
+When using automation, you can chain the `plan` and `apply` commands together:
+
+```powershell
+terraform plan -out plan.out && terraform apply "plan.out" 
+```
+
+**Note:** It's always a good idea to review the contents of the plan first before applying it.
+
+As a result of applying the plan, the file `art_of_war.txt` is created in the current working directory.
+
+<img src='images/1747305446323.png' width='200'/>
+
+Terraform also creates a state file called `terraform.tfstate` in the current working directory. This file contains the current state of the infrastructure managed by Terraform. The state file is used to perform diffs during the plan and detect configuration drift.
+
+<img src='images/1747305504859.png' width='500'/>
+
+**Note:** Don't mess with this file!
+
