@@ -16,5 +16,12 @@ resource "local_file" "literature" {
         It is a matter of life and death, a road either to safety or to
         ruin. Hence it is a subject of inquiry which can on no account be
         neglected.
+
+        The art of war, then, is governed by five constant factors, to be
+        taken into account in one's deliberations, when seeking to
+        determine the conditions obtaining in the field.
+
+        These are: The Moral Law; Heaven; Earth; The Commander; Method and
+        discipline.
     EOT
 }

@@ -46,6 +46,8 @@ terraform show      # Show the current state of the infrastructure managed by Te
       - [Generating a dependency graph](#generating-a-dependency-graph)
       - [Inspecting the plan using JSON](#inspecting-the-plan-using-json)
     - [2.5 Creating the local file resource](#25-creating-the-local-file-resource)
+    - [2.6 Performing No-Op](#26-performing-no-op)
+    - [2.7 Updating the local file resource](#27-updating-the-local-file-resource)
 
 
 
@@ -359,4 +361,51 @@ Terraform also creates a state file called `terraform.tfstate` in the current wo
 <img src='images/1747305504859.png' width='500'/>
 
 **Note:** Don't mess with this file!
+
+#### 2.6 Performing No-Op
+
+Use `terraform plan` to ensure resources are in a desired state. The resulting action is a no-operation (no-op) because the resource already exists and matches the desired state.
+
+<img src='images/1749029647108.png' width='750'/>
+
+#### 2.7 Updating the local file resource
+
+Updating the `main.tf` file to include more stanzas from the Art of War:
+
+```hcl
+terraform {
+    required_version = ">= 0.15"
+    required_providers {
+        local = {
+            source = "hashicorp/local"
+            version = "~> 2.0"
+        }
+    }
+}
+
+resource "local_file" "literature" {
+    filename = "art_of_war.txt"
+    content  = <<-EOT
+        Sun Tzu said: The art of war is of vital importance to the State.
+
+        It is a matter of life and death, a road either to safety or to
+        ruin. Hence it is a subject of inquiry which can on no account be
+        neglected.
+
+        The art of war, then, is governed by five constant factors, to be
+        taken into account in one's deliberations, when seeking to
+        determine the conditions obtaining in the field.
+
+        These are: The Moral Law; Heaven; Earth; The Commander; Method and
+        discipline.
+    EOT
+}
+```
+
+Running `terraform plan` will show that the resource is going to be updated and highlights changes:
+
+<img src='images/1749030053434.png' width='750'/>
+
+In this case, Terraform noticed we altered the `content` attributeand is therefore proposing to destroy the old resource and create a new resource in its stead.
+
 
