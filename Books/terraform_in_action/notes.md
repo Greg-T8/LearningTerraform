@@ -48,6 +48,9 @@ terraform show      # Show the current state of the infrastructure managed by Te
     - [2.5 Creating the local file resource](#25-creating-the-local-file-resource)
     - [2.6 Performing No-Op](#26-performing-no-op)
     - [2.7 Updating the local file resource](#27-updating-the-local-file-resource)
+      - [2.7.1 Detecting configuration drift](#271-detecting-configuration-drift)
+      - [Terraform refresh](#terraform-refresh)
+    - [2.8 Deleting the local file resource](#28-deleting-the-local-file-resource)
 
 
 
@@ -406,6 +409,57 @@ Running `terraform plan` will show that the resource is going to be updated and 
 
 <img src='images/1749030053434.png' width='750'/>
 
-In this case, Terraform noticed we altered the `content` attributeand is therefore proposing to destroy the old resource and create a new resource in its stead.
+In this case, Terraform noticed we altered the `content` attribute and is therefore proposing to destroy the old resource and create a new resource in its stead. This is done rather than updating the attribute in place because `content` is marked as a *force new attribute*, which means if you change it, Terraform will destroy the old resource and create a new one. This is known as *immutable infrastructure*.
 
+To apply the changes, run `terraform apply`, but this time with the `-auto-approve` flag to skip the confirmation prompt:
 
+```cmd
+terraform apply -auto-approve
+```
+<img src='images/1749030736779.png' width='750'/>
+
+Verify changes to the file:
+
+<img src='images/1749030794255.png' width='500'/>
+
+##### 2.7.1 Detecting configuration drift
+
+To simulate configuration drift, we can manually edit the `art_of_war.txt` file and change its content:
+
+<img src='images/1749030957114.png' width='500'/>
+
+Now, if we run `terraform plan`, Terraform indicates it has forgotten the resource and will indicate its intent to recreate it:
+
+<img src='images/1749031117104.png' width='500'/>v
+
+##### Terraform refresh
+
+How do you fix configuration drift? 
+
+You can use `terraform refresh` to reconcile the state it knows about with what is currently deployed.
+
+<img src='images/1749031531991.png' width='600'/>
+
+`terraform refresh` is like `terraform plan`, except that it alters the state file.
+
+Now when running `terraform show`, nothing is returned because the `local` provider things the old file no longer exists:
+
+<img src='images/1749031705526.png' width='600'/>
+
+The author indicates he rarely finds `terraform refresh` useful, but some peeople really like it.
+
+Now you can run `terraform apply` to recreate the file.
+
+At this point if configuration drift had occurred in a cloud service, e.g. an admin made a point-and-click change to a resource, then Terraform would have reverted the change.
+
+#### 2.8 Deleting the local file resource
+
+Run `terraform destroy` to remove the local file.
+
+<img src='images/1749032152239.png' width='600'/>
+
+During the destroy operation, Terraform invokes `Delete()` on each resource in the state file.
+
+Note that Terraform maintains a backup of the previous state file if needed:
+
+<img src='images/1749032299702.png' width='250'/>
