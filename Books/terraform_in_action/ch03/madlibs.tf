@@ -11,4 +11,8 @@ variable "words" {
         adverbs    = list(string),
         numbers    = list(number)
     })
+    validation {
+        condition     = length(var.words["nouns"]) > = 20
+        error_message = "At least 20 nouns must be supplied."
+    }
 }

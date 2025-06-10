@@ -55,6 +55,8 @@ terraform show      # Show the current state of the infrastructure managed by Te
     - [3.1 Fun with Mad Libs](#31-fun-with-mad-libs)
       - [3.1.1 Input Variables](#311-input-variables)
       - [3.1.2 Assigning values with a variable definition file](#312-assigning-values-with-a-variable-definition-file)
+      - [3.1.3 Validating variables](#313-validating-variables)
+      - [3.1.4 Shuffling lists](#314-shuffling-lists)
 
 
 
@@ -594,3 +596,26 @@ words = {
 ```
 [File - `madlibs.tfvars`](./ch03/madlibs.tfvars)
 
+##### 3.1.3 Validating variables
+
+You can use a custom validation block to validate input variables.
+
+```hcl
+variable "words" {
+    description = "A word pool to use for Mad Libs"
+    type = object({
+        nouns      = list(string),
+        adjectives = list(string),
+        verbs      = list(string),
+        adverbs    = list(string),
+        numbers    = list(number)
+    })
+    validation {
+        condition     = length(var.words["nouns"]) > = 20
+        error_message = "At least 20 nouns must be supplied."
+    }
+}
+```
+[File - `madlibs.tf`](ch03/madlibs.tf)
+
+##### 3.1.4 Shuffling lists
