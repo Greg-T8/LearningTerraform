@@ -51,6 +51,10 @@ terraform show      # Show the current state of the infrastructure managed by Te
       - [2.7.1 Detecting configuration drift](#271-detecting-configuration-drift)
       - [Terraform refresh](#terraform-refresh)
     - [2.8 Deleting the local file resource](#28-deleting-the-local-file-resource)
+  - [Chapter 3: Functional Programming](#chapter-3-functional-programming)
+    - [3.1 Fun with Mad Libs](#31-fun-with-mad-libs)
+      - [3.1.1 Input Variables](#311-input-variables)
+      - [3.1.2 Assigning values with a variable definition file](#312-assigning-values-with-a-variable-definition-file)
 
 
 
@@ -463,3 +467,130 @@ During the destroy operation, Terraform invokes `Delete()` on each resource in t
 Note that Terraform maintains a backup of the previous state file if needed:
 
 <img src='images/1749032299702.png' width='250'/>
+
+
+
+### Chapter 3: Functional Programming
+
+Functional programming allows you to do many things with a single line of code. The core principles of functional programming include:
+- *Pure functions*&mdash;Functions return the same value for the same arguments, never having any side effects.
+- *First-class and higher-order functions*&mdash;Functions are treated like any other variables and can be saved, passed around, and used to create higher-order functions.
+- *Immutability*&mdash;Data is never directly modified. Instead, new data structures are created each time data would change.
+
+Example of procedural code:
+
+```js
+const numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+let result = 0;
+for (let i = 0; i < numList.length; i++) {
+  if (numList[i] % 2 === 0) {
+    result += (numList[i] * 10)
+  }
+}
+```
+
+The same problem solved with functional programming:
+
+```js
+const numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const result = numList
+    .filter(n => n % 2 === 0)
+    .map(a => a * 10)
+    .reduce((a, b) => a + b)
+```
+
+and in Terraform:
+
+```hcl
+locals {
+  numList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  result  = sum([for x in local.numList : 10 * x if x % 2 == 0])
+}
+```
+
+#### 3.1 Fun with Mad Libs
+
+Mad Libs is a word game where players fill in the blanks with words to create a funny story. We'll use Terraform to generate a Mad Libs story.
+
+<img src='images/1749549571971.png' alt='Mad Libs Story' width='600'/>
+
+##### 3.1.1 Input Variables
+
+The first objective is to create a word pool. To do this, we will use input variables. Input variables are user-supplied values that parameterize Terraform modules without altering the source code.
+
+Example of a variable block:
+
+<img src='images/1749549747223.png' alt='Variable Block' width='300'/>
+
+Variables accept four input arguments:
+- `default`&mdash;A preselected option to use when no alternative is available. Leaving this argument blank means a variable is mandatory and must be explicity set.
+- `description`&mdash;A string value providing context for the variable.
+- `type`&mdash;A type constraint that limits the values a variable can accept. Types can be primitive (string, integer, bool) or complex (list, set, map, object, tuple).
+- `validation`&mdash;A nested block that can enforce custom validation rules.
+
+Variable values can be accessed using the `var` keyword, e.g. `var.name`.
+
+In our scenario, we can define a variable for each particle of speech, e.g. nouns, adjectives, verbs:
+
+```hcl
+variable "nouns" {
+  description = "A list of nouns"
+  type        = list(string)
+}
+ 
+variable "adjectives" {
+  description = "A list of adjectives"
+  type        = list(string)
+}
+
+variable "verbs" {
+  description = "A list of verbs"
+  type        = list(string)
+}
+ 
+variable "adverbs" {
+  description = "A list of adverbs"
+  type        = list(string)
+}
+ 
+variable "numbers" {
+  description = "A list of numbers"
+  type        = list(number)
+}
+```
+
+In Ter
+
+```hcl
+terraform {
+    required_version = ">= 0.15"
+}
+
+variable "words" {
+    description = "A word pool to use for Mad Libs"
+    type = object({
+        nouns      = list(string),
+        adjectives = list(string),
+        verbs      = list(string),
+        adverbs    = list(string),
+        numbers    = list(number)
+    })
+}
+```
+[File - `madlibs.tf`](ch03/madlibs.tf)
+
+##### 3.1.2 Assigning values with a variable definition file
+
+Assigning values with the `default` argument is a good idea because it doesn't facilitate code reuse. A better way is to use a variable defintion file, which is any file ending in either the `.tfvars` or `.tfvars.json` extension.
+
+```hcl
+words = {
+  nouns      = ["army", "panther", "walnuts", "sandwich", "Zeus", "banana", "cat", "jellyfish", "jigsaw", "violin", "milk", "sun"]
+  adjectives = ["bitter", "sticky", "thundering", "abundant", "chubby", "grumpy"]
+  verbs      = ["run", "dance", "love", "respect", "kicked", "baked"]
+  adverbs    = ["delicately", "beautifully", "quickly", "truthfully", "wearily"]
+  numbers    = [42, 27, 101, 73, -5, 0]
+}
+```
+[File - `madlibs.tfvars`](./ch03/madlibs.tfvars)
+
