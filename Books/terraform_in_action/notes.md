@@ -57,6 +57,7 @@ terraform show      # Show the current state of the infrastructure managed by Te
       - [3.1.2 Assigning values with a variable definition file](#312-assigning-values-with-a-variable-definition-file)
       - [3.1.3 Validating variables](#313-validating-variables)
       - [3.1.4 Shuffling lists](#314-shuffling-lists)
+      - [3.1.5 Functions](#315-functions)
 
 
 
@@ -619,3 +620,64 @@ variable "words" {
 [File - `madlibs.tf`](ch03/madlibs.tf)
 
 ##### 3.1.4 Shuffling lists
+
+Terraform strives to be a functional programming language, which means all functions (with the exception of two) are pure functions. *Pure functions* return the same result for a given set of inputs and do not have side effects. `shuffle()` cannot be allowed because generated execution plans would not be repeatable.
+
+> Note: `uuid()` and `timestamp()` are the two exceptions to the rule of pure functions.
+
+The `Random` provider introduces a `random_shuffle` resource that can be used to shuffle lists. Given that we have five lists, we'll use five random suffles.
+
+<img src='images/20250610055401.png' width='500'/>
+
+The Random provider allows for constrained randomness within Terraform configurations and is great for generating random strings and uuids. It's also helpful for preventing namespace collisions and for generating dynamic secrets like usernames and passwords.
+
+```hcl
+terraform {
+    required_version = ">= 0.15"
+    required_providers {                                            // Introducing the Random provider 
+        random = {
+            source = "hashicorp/random"
+            version = "~> 3.0"
+        }
+    }
+}
+
+variable "words" {
+    description = "A word pool to use for Mad Libs"
+    type = object({
+        nouns      = list(string),
+        adjectives = list(string),
+        verbs      = list(string),
+        adverbs    = list(string),
+        numbers    = list(number)
+    })
+    validation {
+        condition     = length(var.words["nouns"]) > = 20
+        error_message = "At least 20 nouns must be supplied."
+    }
+}
+
+resource "random_shuffle" "random_nouns" {                          // Using the Random provider to shuffle lists
+    input = var.words["nouns"]
+}
+
+resource "random_shuffle" "random_adjectives" {
+    input = var.words["adjectives"]
+}
+
+resource "random_shuffle" "random_verbs" {
+    input = var.words["verbs"]
+}
+
+resource "random_shuffle" "random_adverbs" {
+    input = var.words["adverbs"]
+}
+
+resource "random_shuffle" "random_numbers" {
+    input = var.words["numbers"]
+}
+```
+[File - `madlibs.tf`](ch03/madlibs.tf)
+
+
+##### 3.1.5 Functions
