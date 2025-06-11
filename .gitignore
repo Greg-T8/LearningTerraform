@@ -8,8 +8,8 @@
 *.log
 
 # Ignore local settings
-*.tfvars
-*.tfvars.json
+# *.tfvars
+# *.tfvars.json
 
 # Ignore IDE-specific files
 .idea/
