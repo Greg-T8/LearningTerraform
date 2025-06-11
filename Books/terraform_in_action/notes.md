@@ -588,7 +588,7 @@ variable "words" {
 
 ##### 3.1.2 Assigning values with a variable definition file
 
-Assigning values with the `default` argument is a good idea because it doesn't facilitate code reuse. A better way is to use a variable defintion file, which is any file ending in either the `.tfvars` or `.tfvars.json` extension.
+Assigning values with the `default` argument is not a good idea because it doesn't facilitate code reuse. A better way is to use a variable defintion file, which is any file ending in either the `.tfvars` or `.tfvars.json` extension.
 
 ```hcl
 words = {
@@ -599,7 +599,10 @@ words = {
   numbers    = [42, 27, 101, 73, -5, 0]
 }
 ```
-[File - `madlibs.tfvars`](./ch03/madlibs.tfvars)
+[File - `terraform.tfvars`](./ch03/terraform.tfvars)
+
+Terraform will automatically load the `terraform.tfvars` file. If you choose to use a different file name, you can specify it with the `-var-file` flag when running `terraform plan` or `terraform apply`.
+
 
 ##### 3.1.3 Validating variables
 
@@ -758,4 +761,144 @@ We're now ready to generate our first Mad Libs paragraph. Initalize Terraform an
 
 ```cmd
 terraform init && terraform apply -auto-approve
+
+Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/random from the dependency lock file
+- Using previously-installed hashicorp/random v3.7.2
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # random_shuffle.random_adjectives will be created
+  + resource "random_shuffle" "random_adjectives" {
+      + id     = (known after apply)
+      + input  = [
+          + "bitter",
+          + "sticky",
+          + "thundering",
+          + "abundant",
+          + "chubby",
+          + "grumpy",
+        ]
+      + result = (known after apply)
+    }
+
+  # random_shuffle.random_adverbs will be created
+  + resource "random_shuffle" "random_adverbs" {
+      + id     = (known after apply)
+      + input  = [
+          + "delicately",
+          + "beautifully",
+          + "quickly",
+          + "truthfully",
+          + "wearily",
+        ]
+      + result = (known after apply)
+    }
+
+  # random_shuffle.random_nouns will be created
+  + resource "random_shuffle" "random_nouns" {
+      + id     = (known after apply)
+      + input  = [
+          + "army",
+          + "panther",
+          + "walnuts",
+          + "sandwich",
+          + "Zeus",
+          + "banana",
+          + "cat",
+          + "jellyfish",
+          + "jigsaw",
+          + "violin",
+          + "milk",
+          + "sun",
+          + "robot",
+          + "pencil",
+          + "mountain",
+          + "glove",
+          + "castle",
+          + "pancake",
+          + "rocket",
+          + "pirate",
+        ]
+      + result = (known after apply)
+    }
+
+  # random_shuffle.random_numbers will be created
+  + resource "random_shuffle" "random_numbers" {
+      + id     = (known after apply)
+      + input  = [
+          + "42",
+          + "27",
+          + "101",
+          + "73",
+          + "-5",
+          + "0",
+        ]
+      + result = (known after apply)
+    }
+
+  # random_shuffle.random_verbs will be created
+  + resource "random_shuffle" "random_verbs" {
+      + id     = (known after apply)
+      + input  = [
+          + "run",
+          + "dance",
+          + "love",
+          + "respect",
+          + "kicked",
+          + "baked",
+        ]
+      + result = (known after apply)
+    }
+
+Plan: 5 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + mad_libs = (known after apply)
+random_shuffle.random_adverbs: Creating...
+random_shuffle.random_numbers: Creating...
+random_shuffle.random_adjectives: Creating...
+random_shuffle.random_verbs: Creating...
+random_shuffle.random_nouns: Creating...
+random_shuffle.random_numbers: Creation complete after 0s [id=-]
+random_shuffle.random_adverbs: Creation complete after 0s [id=-]
+random_shuffle.random_verbs: Creation complete after 0s [id=-]
+random_shuffle.random_nouns: Creation complete after 0s [id=-]
+random_shuffle.random_adjectives: Creation complete after 0s [id=-]
+
+Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+mad_libs = <<EOT
+ALICE'S UPSIDE-DOWN WORLD
+
+Lewis Carroll's classic, "Alice's Adventures in Wonderland", as well
+as its sticky sequel, "Through the Looking glove",
+have enchanted both the young and old armys for the last
+27 years, Alice's abundant adventures begin
+when she dances down a/an chubby hole and lands
+in a strange and topsy-turvy violin. There she discovers she
+can become a tall pancake or a small pencil simply by
+nibbling on alternate sides of a magic banana. In her travels
+through Wonderland, Alice respects such remarkable
+characters as the White cat, the grumpy Hatter,
+the Cheshire panther, and even the Queen of jellyfishs.
+Unfortunately, Alice's adventures come to a/an thundering
+end when Alice awakens from her jellyfish.
+EOT
 ```
