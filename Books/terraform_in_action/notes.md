@@ -16,6 +16,7 @@
 terraform init      # Initialize a working directory containing Terraform configuration files
 terraform apply     # Create or update infrastructure as defined in the configuration files
 terraform show      # Show the current state of the infrastructure managed by Terraform
+terraform fmt       # Format Terraform configuration files to a canonical format and style
 ```
 
 <!-- omit from toc -->
@@ -58,6 +59,9 @@ terraform show      # Show the current state of the infrastructure managed by Te
       - [3.1.3 Validating variables](#313-validating-variables)
       - [3.1.4 Shuffling lists](#314-shuffling-lists)
       - [3.1.5 Functions](#315-functions)
+      - [3.1.6 Output values](#316-output-values)
+      - [3.1.7 Templates](#317-templates)
+      - [3.1.8 Printing output](#318-printing-output)
 
 
 
@@ -681,3 +685,77 @@ resource "random_shuffle" "random_numbers" {
 
 
 ##### 3.1.5 Functions
+
+Terraform does not have support for user-defined functions, nor is there a way to import functions from external libraries. However, it does have roughly 100 built-in functions that can be used.
+
+We'll use the built-in `templatefile()` function to replace placeholder values in the template file with the shuffled words.
+
+> Note: You extend Terraform by writing your own provider, not by writing your own functions.
+
+Here is the syntax of the `templatefile()` function:
+
+<img src='images/20250611044934.png' width='650'/>
+
+The `templatefile()` function takes two arguments:
+1. `filename`&mdash;The path to the template file.
+2. `vars`&mdash;A map of variables to replace in the template file.
+
+We'll construct the map of template variables by aggregating together the lists of shuffled words:
+
+<img src='images/20250611045345.png' width='650'/>
+
+Here's the `templatefile()` code:
+
+```hcl
+templatefile("${path.module}/templates/alice.txt",
+{
+    nouns      = random_shuffle.random_nouns.result
+    adjectives = random_shuffle.random_adjectives.result
+    verbs      = random_shuffle.random_verbs.result
+    adverbs    = random_shuffle.random_adverbs.result
+    numbers    = random_shuffle.random_numbers.result
+})
+```
+
+##### 3.1.6 Output values
+
+Output values are used for two things:
+1. Pass values between modules.
+2. Print values to the CLI.
+
+You can return the result of the `templatefile()` function as an output value by printing to the CLI:
+
+<img src='images/20250611045813.png' width='300'/>
+
+
+```hcl
+output "mad_libs" {
+  value = templatefile("${path.module}/templates/alice.txt",
+    {
+      nouns      = random_shuffle.random_nouns.result
+      adjectives = random_shuffle.random_adjectives.result
+      verbs      = random_shuffle.random_verbs.result
+      adverbs    = random_shuffle.random_adverbs.result
+      numbers    = random_shuffle.random_numbers.result
+  })
+}
+```
+[File - `madlibs.tf`](ch03/madlibs.tf)
+
+##### 3.1.7 Templates
+
+Next, we will create a template file that will be used to generate the Mad Libs story. By using interpolation, i.e. the `${...}` marker, the template file will contain placeholders for the words that will be replaced by the shuffled words. 
+
+String templates allow you to evaluate an expression and coerce the result into a string. An expression can be evaluated with template syntax, but you are restricted by variable scope. Only passed-in template variable are in scope; all other variables and resources&mdash;even within the same module&mdash;are not in scope.
+
+The template file, which resides in the `templates` directory, is called `alice.txt` and contains the following content:
+
+<img src='images/20250611051343.png' width='450'/>
+
+##### 3.1.8 Printing output
+
+We're now ready to generate our first Mad Libs paragraph. Initalize Terraform and then apply these changes:
+
+```cmd
+terraform init && terraform apply -auto-approve
+```
