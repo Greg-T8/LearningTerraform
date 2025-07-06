@@ -65,6 +65,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
     - [3.2 Generating many Mad Libs stories](#32-generating-many-mad-libs-stories)
       - [3.2.1 `for` expressions](#321-for-expressions)
       - [3.2.2 Local values](#322-local-values)
+      - [3.2.4 `count` parameter](#324-count-parameter)
 
 
 
@@ -847,6 +848,50 @@ resource "random_shuffle" "random_adverbs" {
 }
 
 resource "random_shuffle" "random_numbers" {
+  input = local.uppercase_words["numbers"]
+}
+```
+
+**Note:** omitted section 3.2.3 on implicit dependencies because the author did not explain it well.
+
+##### 3.2.4 `count` parameter
+
+To make 100 Mad Libs stories, we'll use the `count` meta argument to dynamically provision resources. Count is a *meta argument*, which means all resources intrinsincally support it by virtue of being a Terraform resource.
+
+The address of a Terraform resource uses the format `resource_type.resource_name`. If `count` is set, the value becomes a list of terraform resources, and the address becomes `resource_type.resource_name[index]`, where `index` is the zero-based index of the resource in the list.
+
+Creating a new variable to control the number of files to create:
+```hcl
+variable "num_files" {
+  default = 100
+  type    = number
+}
+```
+Defining the `count` meta argument for the `random_shuffle` Terraform resources:
+
+```hcl
+resource "random_shuffle" "random_nouns" {
+  count = var.num_files
+  input = local.uppercase_words["nouns"]
+}
+
+resource "random_shuffle" "random_adjectives" {
+  count = var.num_files
+  input = local.uppercase_words["adjectives"]
+}
+
+resource "random_shuffle" "random_verbs" {
+  count = var.num_files
+  input = local.uppercase_words["verbs"]
+}
+
+resource "random_shuffle" "random_adverbs" {
+  count = var.num_files
+  input = local.uppercase_words["adverbs"]
+}
+
+resource "random_shuffle" "random_numbers" {
+  count = var.num_files
   input = local.uppercase_words["numbers"]
 }
 ```
