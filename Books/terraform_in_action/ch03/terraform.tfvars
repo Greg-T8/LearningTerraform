@@ -1,5 +1,5 @@
 words = {
-  nouns = ["army", "panther", "walnuts", "sandwich", "Zeus", "banana", "cat", "jellyfish", "jigsaw", "violin", "milk", "sun", "robot", "pencil", "mountain", "glove", "castle", "pancake", "rocket", "pirate"]
+  nouns      = ["army", "panther", "walnuts", "sandwich", "Zeus", "banana", "cat", "jellyfish", "jigsaw", "violin", "milk", "sun", "robot", "pencil", "mountain", "glove", "castle", "pancake", "rocket", "pirate"]
   adjectives = ["bitter", "sticky", "thundering", "abundant", "chubby", "grumpy"]
   verbs      = ["run", "dance", "love", "respect", "kicked", "baked"]
   adverbs    = ["delicately", "beautifully", "quickly", "truthfully", "wearily"]
