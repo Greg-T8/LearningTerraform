@@ -64,6 +64,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [3.1.8 Printing output](#318-printing-output)
     - [3.2 Generating many Mad Libs stories](#32-generating-many-mad-libs-stories)
       - [3.2.1 `for` expressions](#321-for-expressions)
+      - [3.2.2 Local values](#322-local-values)
 
 
 
@@ -811,3 +812,41 @@ To make a `for` expression that uppercases each word in `var.words`, we combine 
 ```
 
 This expression iterates over each key-value pair in `var.words`, and for each value (which is a list), it applies the `upper()` function to each string in the list. The result is a new map where each list of words is uppercased. The `if k != "numbers"` condition is used to exclude the `numbers` key from the output, as we don't want to uppercase numbers.
+
+##### 3.2.2 Local values
+
+Local values assign a name to an expression. They are defined using the `locals` block:
+
+<img src="images/1751797650999.png" width="250"/>
+
+In `madlibs.tf`, we introduce the `uppercase_words` local value to transform each word:
+
+```hcl
+locals {
+  uppercase_words = {for k, v in var.words : k => [for s in v : upper(s)]}
+}
+```
+
+Further down, the `uppercase_words` local value is used to uppercase the words:
+
+```hcl
+resource "random_shuffle" "random_nouns" {
+  input = local.uppercase_words["nouns"]
+}
+
+resource "random_shuffle" "random_adjectives" {
+  input = local.uppercase_words["adjectives"]
+}
+
+resource "random_shuffle" "random_verbs" {
+  input = local.uppercase_words["verbs"]
+}
+
+resource "random_shuffle" "random_adverbs" {
+  input = local.uppercase_words["adverbs"]
+}
+
+resource "random_shuffle" "random_numbers" {
+  input = local.uppercase_words["numbers"]
+}
+```
