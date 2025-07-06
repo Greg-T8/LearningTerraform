@@ -62,6 +62,8 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [3.1.6 Output values](#316-output-values)
       - [3.1.7 Templates](#317-templates)
       - [3.1.8 Printing output](#318-printing-output)
+    - [3.2 Generating many Mad Libs stories](#32-generating-many-mad-libs-stories)
+      - [3.2.1 `for` expressions](#321-for-expressions)
 
 
 
@@ -764,3 +766,48 @@ We're now ready to generate our first Mad Libs paragraph. Initalize Terraform an
 terraform init && terraform apply -auto-approve
 ```
 <img src='images/20250706045907.png' width='450'/>
+
+#### 3.2 Generating many Mad Libs stories
+
+You can generate multiple Mad Libs stories by using the `count` meta argument.
+
+To support this, we'll introduce the following changes:
+1. Create 100 Mad Libs paragraphs
+2. Use three template files (alice.txt, observatory.txt, and photographer.txt)
+3. Capitalize each word before shuffling.
+4. Save the Mad Libs paragraphs as text files.
+5. Zip all of them together.
+
+<img src="images/1751796184410.png" width="650"/>
+
+##### 3.2.1 `for` expressions
+
+The step for upppercasing strings in `var.words` was introduced to make it easier to see templated words.
+
+The result of the uppercase function is saved into a local value, which is then fed into `random_shuffle`. To do this, you need to employ a `for` expression.
+
+`for` expressions are anonymous functions that transform one complex type into another. The brackets around the `for` expression determine the output type. In this case, `[...]` indicates a list. 
+
+<img src="images/1751796554460.png" width="650"/>
+
+Example showing the processing of the `nouns` list:
+
+<img src="images/1751796823405.png" width="650"/>
+
+If `{...}` were used, the result would be a map.
+
+<img src="images/1751796717081.png" width="650"/>
+
+Example showing the iteration over `var.words` and outputting a map:
+
+<img src="images/1751796884178.png" width="750"/>
+
+`for` expressions are useful because (1) they can convert one type to another and (2) simple expressions can be combined to construct higher-order functions.
+
+To make a `for` expression that uppercases each word in `var.words`, we combine two smaller `for` expressions into one *mega* `for` expression.
+
+```hcl
+{for k, v in var.words : k => [for s in v : upper(s)] if k != "numbers" }
+```
+
+This expression iterates over each key-value pair in `var.words`, and for each value (which is a list), it applies the `upper()` function to each string in the list. The result is a new map where each list of words is uppercased. The `if k != "numbers"` condition is used to exclude the `numbers` key from the output, as we don't want to uppercase numbers.
