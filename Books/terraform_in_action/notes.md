@@ -72,6 +72,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [3.2.8 Zipping files](#328-zipping-files)
       - [3.2.9 Applying changes](#329-applying-changes)
       - [Expressions Reference](#expressions-reference)
+  - [Chapter 4: Deploying a multi-tiered web application in AWS](#chapter-4-deploying-a-multi-tiered-web-application-in-aws)
 
 
 
@@ -1010,3 +1011,5 @@ The result is the creation of 100 Mad Libs stories, each saved as a text file in
 | Dynamic block               | Constructs repeatable nested blocks within resources                         | ```dynamic "ingress" {``` <br> ```for_each = var.service_ports``` <br> ```  content {``` <br> ```    from_port = ingress.value``` <br>  ```    to_port   = ingress.value``` <br>  ```    protocol = "tcp"``` <br> ``` }``` <br> ```}``` |
 | String template interpolation | Embeds expressions in a string literal                                      | `"Hello, ${var.name}!"`                                                                      |
 | String template directives  | Uses conditional results and iterates over a collection within a string literal | ```%{ for ip in var.list.*.ip }```<br> ```server ${ip}``` <br> ```%{ endfor }```                |
+
+### Chapter 4: Deploying a multi-tiered web application in AWS
