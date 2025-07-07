@@ -71,6 +71,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [3.2.7 Local file](#327-local-file)
       - [3.2.8 Zipping files](#328-zipping-files)
       - [3.2.9 Applying changes](#329-applying-changes)
+      - [Expressions Reference](#expressions-reference)
 
 
 
@@ -997,3 +998,15 @@ terraform init && terraform apply -auto-approve
 The result is the creation of 100 Mad Libs stories, each saved as a text file in the `madlibs` directory. The stories are also zipped into a single file called `madlibs.zip`.
 
 <img src="images/1751882236579.png" alt="alt text" width="750"/>
+
+##### Expressions Reference
+
+| Name                        | Description                                                                 | Example                                                                                      |
+|-----------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| Conditional expression      | Uses the value of a boolean expression to select one of two values           | `condition ? true_value : false_value`                                                       |
+| Function call               | Transforms and combines values                                               | `<FUNCTION NAME>(<ARG 1>, <ARG2>)`                                                           |
+| `for` expression              | Transforms one complex type to another                                       | `[for s in var.list : upper(s)]`                                                             |
+| Splat expression            | Shorthand for some common use cases that could otherwise be handled by for expressions | `var.list[*].id`<br>Following is the equivalent for expression:<br>`[for s in var.list : s.id]` |
+| Dynamic block               | Constructs repeatable nested blocks within resources                         | ```dynamic "ingress" {``` <br> ```for_each = var.service_ports``` <br> ```  content {``` <br> ```    from_port = ingress.value``` <br>  ```    to_port   = ingress.value``` <br>  ```    protocol = "tcp"``` <br> ``` }``` <br> ```}``` |
+| String template interpolation | Embeds expressions in a string literal                                      | `"Hello, ${var.name}!"`                                                                      |
+| String template directives  | Uses conditional results and iterates over a collection within a string literal | ```%{ for ip in var.list.*.ip }```<br> ```server ${ip}``` <br> ```%{ endfor }```                |
