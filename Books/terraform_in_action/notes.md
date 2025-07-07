@@ -69,6 +69,8 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [3.2.5 Conditional expressions](#325-conditional-expressions)
       - [3.2.6 More templates](#326-more-templates)
       - [3.2.7 Local file](#327-local-file)
+      - [3.2.8 Zipping files](#328-zipping-files)
+      - [3.2.9 Applying changes](#329-applying-changes)
 
 
 
@@ -930,3 +932,68 @@ To generate multiple Mad Libs stories, we need to use multiple template files. W
 <img src="images/1751879834853.png" alt="alt text" width="500"/>
 
 ##### 3.2.7 Local file
+
+Instead of outputting to the CLI, we'll save the results to disk with a `local_file` resource.
+
+For this, we'll use the built-in `fileset()` function:
+
+```hcl
+locals {
+  templates = tolist(fileset(path.module, "templates/*.txt"))
+}
+```
+
+**Note:** sets and lists look the same but are different, so an explicit cast must be made to convert a set to a list.
+
+With the list of template files in place, we can feed the result into `local_file`. This resource generates `var.num_files` text files (i.e. 100 files):
+
+```hcl
+resource "local_file" "mad_libs" {
+  count    = var.num_files
+  filename = "madlibs/madlibs-${count.index}.txt"
+  content = templatefile(element(local.templates, count.index),
+    {
+      nouns      = random_shuffle.random_nouns[count.index].result
+      adjectives = random_shuffle.random_adjectives[count.index].result
+      verbs      = random_shuffle.random_verbs[count.index].result
+      adverbs    = random_shuffle.random_adverbs[count.index].result
+      numbers    = random_shuffle.random_numbers[count.index].result
+  })
+}
+```
+
+Things to note:
+- `element()` operates on a list as if it were circular, retrieving elements at a given index without throwing an out-of-bounds exception. This means `element()` evenly divides the 100 Mad Libs stories between the template files.
+- `count.index` ensures that `templatefile()` receives template variables from corresponding `random_shuffle` resources.
+
+##### 3.2.8 Zipping files
+
+The `archive_file` data source can be used to create a zip file containing all the Mad Libs stories.
+
+```hcl
+data "archive_file" "mad_libs" {
+  depends_on  = [local_file.mad_libs]           
+  type        = "zip"
+  source_dir  = "${path.module}/madlibs"
+  output_path = "${path.cwd}/madlibs.zip"
+}
+```
+
+Things to note:
+
+- `depends_on` metag argument specifies explicit dependencies between resources. Explicit dependencies describe relationships between resources that are not visible to Terraform. 
+- Normally, we would look to use an implicit dependency, but `archive_file` doesn't have any input arguments that make sense from the output of `local_file`, so we are forced to use an explicit dependency.
+
+**Tip:** prefer implicit dependencies over explicit dependencies because they are clearer to someone reading your code.
+
+##### 3.2.9 Applying changes
+
+Run `terraform init` to download the new providers; then follow it with `terraform apply`:
+
+```powershell
+terraform init && terraform apply -auto-approve
+```
+
+The result is the creation of 100 Mad Libs stories, each saved as a text file in the `madlibs` directory. The stories are also zipped into a single file called `madlibs.zip`.
+
+<img src="images/1751882236579.png" alt="alt text" width="750"/>
