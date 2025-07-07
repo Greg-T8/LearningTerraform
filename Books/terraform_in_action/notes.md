@@ -66,6 +66,9 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [3.2.1 `for` expressions](#321-for-expressions)
       - [3.2.2 Local values](#322-local-values)
       - [3.2.4 `count` parameter](#324-count-parameter)
+      - [3.2.5 Conditional expressions](#325-conditional-expressions)
+      - [3.2.6 More templates](#326-more-templates)
+      - [3.2.7 Local file](#327-local-file)
 
 
 
@@ -895,3 +898,35 @@ resource "random_shuffle" "random_numbers" {
   input = local.uppercase_words["numbers"]
 }
 ```
+
+##### 3.2.5 Conditional expressions
+
+Conditional expressions are ternary operators. Before variables had validation blocks, conditional expressions were used to validate input variables. Nowadays, they serve a niche role.
+
+<img src="images/1751879207191.png" width="400"/>
+
+The following conditional expression validates that at least one noun is supplied to the `nounds` word list:
+
+```hcl
+locals {
+  v = length(var.words["nouns"]) >= 1 ? var.words["nouns"] : [][0]
+}
+```
+
+If `var.words["nouns"]` doesn't contain at least one noun, then an error is thrown because `[][0]` always throws an error if it's evaluated (since it attempts to access the first element of an empty list).
+
+Conditional expressions are most commonly used to toggle whether a resource will be created:
+
+```hcl
+count = var.shuffle_enabled ? 1 : 0
+```
+
+However, conditional expressions hurt readability, so use them sparingly.
+
+##### 3.2.6 More templates
+
+To generate multiple Mad Libs stories, we need to use multiple template files. We'll create three template files: `alice.txt`, `observatory.txt`, and `photographer.txt`. Each template file will have a different story.
+
+<img src="images/1751879834853.png" alt="alt text" width="500"/>
+
+##### 3.2.7 Local file
