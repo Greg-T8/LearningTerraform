@@ -73,6 +73,8 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [3.2.9 Applying changes](#329-applying-changes)
       - [Expressions Reference](#expressions-reference)
   - [Chapter 4: Deploying a multi-tiered web application in AWS](#chapter-4-deploying-a-multi-tiered-web-application-in-aws)
+    - [4.1 Architecture](#41-architecture)
+    - [4.2 Terraform modules](#42-terraform-modules)
 
 
 
@@ -1013,3 +1015,34 @@ The result is the creation of 100 Mad Libs stories, each saved as a text file in
 | String template directives  | Uses conditional results and iterates over a collection within a string literal | ```%{ for ip in var.list.*.ip }```<br> ```server ${ip}``` <br> ```%{ endfor }```                |
 
 ### Chapter 4: Deploying a multi-tiered web application in AWS
+
+This chapter covers:
+- Deploying a multi-tiered web application in AWS using Terraform.
+- Setting project variables in variables definition files.
+- Organizing code with nested modules.
+- Using modules from the Terraform Registry.
+- Passing data between modules using input variables and output values.
+
+A three-tiered application typically consists of the following layers:
+1. Presentation layer (frontend)
+2. Application layer, i.e. a REST API (backend)
+3. Data layer (database)
+
+In this chapter, we'll deploy a three-tiered web application for a social media site geared toward pet owners.
+
+#### 4.1 Architecture
+
+We're going to put some EC2 instances in an autoscaling group and then put that behind a load balancer. The load balancer will be public-facing, and the instances and databsase will be on private subnets with firewall rules dictated by security groups.
+
+<img src="images/1752747430842.png" width="550"/>
+
+This deployment will be split into three components:
+- Networking: VPC, subnets, and security groups
+- Database: The SQL database infrastructure
+- Autoscaling: Load balancer, EC2 autoscaling group, and launch template resources
+
+In Terraform, the components in which resources are organized are called *modules*. 
+
+#### 4.2 Terraform modules
+
+Modules are self-contained packages of code that allow you to create reusable components by grouping related resources together.
