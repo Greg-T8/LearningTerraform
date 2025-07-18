@@ -75,6 +75,9 @@ terraform fmt       # Format Terraform configuration files to a canonical format
   - [Chapter 4: Deploying a multi-tiered web application in AWS](#chapter-4-deploying-a-multi-tiered-web-application-in-aws)
     - [4.1 Architecture](#41-architecture)
     - [4.2 Terraform modules](#42-terraform-modules)
+      - [4.2.1 Module syntax](#421-module-syntax)
+      - [4.2.2 What is the root module?](#422-what-is-the-root-module)
+      - [4.2.3 Standard module structure](#423-standard-module-structure)
 
 
 
@@ -1046,3 +1049,34 @@ In Terraform, the components in which resources are organized are called *module
 #### 4.2 Terraform modules
 
 Modules are self-contained packages of code that allow you to create reusable components by grouping related resources together.
+
+##### 4.2.1 Module syntax
+
+If resources and data sources are the individual building blocks of Terraform, then modules are prefabricated groupings of many such blocks.
+
+<img src="images/1752830212243.png" alt="alt text" width="400"/>
+
+Here is the syntax for module declarations. 
+
+<img src="images/1752830265386.png" alt="alt text" width="500"/>
+
+##### 4.2.2 What is the root module?
+
+Every workspace has a *root module*; it's the directory where you run `terraform apply`. Under the root module, you may have one or more child modules to help you organize and reuse configurations.
+
+Modules can be sourced locally, i.e. embedded within the root module, or remotely, i.e. they are downloaded from a remote location as part of `terraform init`.
+
+Here is the overall module structure:
+
+<img src="images/1752830515144.png" alt="alt text" width="500"/>
+
+##### 4.2.3 Standard module structure
+
+Hashicorp stronlgy recommends that every module follow certain code conventions known as the *standard module structure* (https://developer.hashicorp.com/terraform/language/modules/develop).
+
+At a minimum, this means having three Terraform configuration files per module:
+- `main.tf`: the primary entry point
+- `outputs.tf`: declarations for all output values
+- `variables.tf`: declarations for all input variables
+
+**Note:** `versions.tf`, `providers.tf`, and `README.md` are considered required files in the root module. This will be covered in a later chapter.
