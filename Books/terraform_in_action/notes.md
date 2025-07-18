@@ -78,6 +78,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [4.2.1 Module syntax](#421-module-syntax)
       - [4.2.2 What is the root module?](#422-what-is-the-root-module)
       - [4.2.3 Standard module structure](#423-standard-module-structure)
+    - [4.3 Root module](#43-root-module)
 
 
 
@@ -1080,3 +1081,29 @@ At a minimum, this means having three Terraform configuration files per module:
 - `variables.tf`: declarations for all input variables
 
 **Note:** `versions.tf`, `providers.tf`, and `README.md` are considered required files in the root module. This will be covered in a later chapter.
+
+Detailed module structure:
+
+<img src="images/1752830759061.png" alt="alt text" width="600"/>
+
+#### 4.3 Root module
+
+The root module is where user-supplied variables are configured and where Terraform commands such as `terraform init` and `terraform apply` are run.
+
+In this module, there are three input variables: `namespace`, `ssh_key-pair`, and `region`.
+
+There are two output values: `db_password` and `lb_dns_name`.
+
+<img src="images/1752830930781.png" alt="alt text" width="600"/>
+
+A user of the root module only needs to set the value of the `namespace` variable since the other two variables are optional. The output values are the provisioned load balancer's DNS name (`lb_dns_name`) and the database password (`db_password`).
+
+The load balancer DNS name is how the user will navigate to the website from a browser.
+
+The root module consists of six files:
+- `variables.tf`: input variables
+- `terraform.tfvars`: variables definition file
+- `providers.tf`: provider declarations
+- `main.tf`: primary entry point
+- `outputs.tf`: output values
+- `versions.tf`: provider version locking
