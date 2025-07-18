@@ -79,6 +79,8 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [4.2.2 What is the root module?](#422-what-is-the-root-module)
       - [4.2.3 Standard module structure](#423-standard-module-structure)
     - [4.3 Root module](#43-root-module)
+      - [4.3.1 Code](#431-code)
+    - [4.4 Networking module](#44-networking-module)
 
 
 
@@ -1107,3 +1109,103 @@ The root module consists of six files:
 - `main.tf`: primary entry point
 - `outputs.tf`: output values
 - `versions.tf`: provider version locking
+
+##### 4.3.1 Code
+
+
+[File - `variables.tf`](./ch04/three_tier/variables.tf)
+```hcl
+variable "namespace" {
+  description = "The project namespace to use for unique resource naming"
+  type        = string
+}
+
+variable "ssh_keypair" {
+  description = "SSH keypair to use for EC2 instance"
+  default     = null                                        # Null is useful for optional variables that don't have a meaningful default value          
+  type        = string
+}
+
+variable "region" {
+  description = "AWS region"
+  default     = "us-west-2"
+  type        = string
+}
+```
+
+The variables definition file allows you to parameterize configuration code without having to hardcode default values. It only consists of variable names and assignemnts.
+
+[File - `terraform.tfvars`](./ch04/three_tier/terraform.tfvars)
+```hcl
+namespace = "my-cool-project"
+region    = "us-west-2"
+```
+
+The `region` variable is referenced in the provider declaration:
+
+[File - `providers.tf`](./ch04/three_tier/providers.tf)
+```hcl
+provider "aws" {
+  region = var.region
+}
+```
+
+The `namespace` variable is a project identifier. Some modules use two variables instead, e.g. `project_name` and `environment`.
+
+We pass `namespace` into each of the three child modules. The current module files will initially serve as stubs, but they will be fleshed out later.
+
+
+[File - `main.tf`](./ch04/three_tier/main.tf)
+```hcl
+module "autoscaling" {
+  source      = "./modules/autoscaling"             # Nested child modules are sourced from a local modules directory
+  namespace   = var.namespace                       # Each module uses var.namespace for resource naming
+}
+
+module "database" {
+  source    = "./modules/database"
+  namespace = var.namespace
+}
+
+module "networking" {
+  source    = "./modules/networking"
+  namespace = var.namespace
+}
+```
+
+[File - `outputs.tf`](./ch04/three_tier/outputs.tf)
+```hcl
+output "db_password" {
+  value = "tbd"
+}
+output "lb_dns_name" {
+  value = "tbd"
+}
+```
+
+The last thing you want to do is lock  in the provider and Terraform versions. Normally, you would wait until after running `terraform init`, since that command downloads the provider plugins, but the author has already done this ahead of time.
+
+[File - `versions.tf`](./ch04/three_tier/versions.tf)
+```hcl
+terraform {
+  required_version = ">= 0.15"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.28"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
+    cloudinit = {
+      source  = "hashicorp/cloudinit"
+      version = "~> 2.1"
+    }
+  }
+}
+```
+
+#### 4.4 Networking module
+
+
