@@ -1208,4 +1208,10 @@ terraform {
 
 #### 4.4 Networking module
 
+The networking module includes the VPC, subnets, internet gateway, and security groups.
 
+<img src="images/1753435460619.png" alt="alt text" width="600"/>
+
+You can treat modules as functions with side effects (i.e. nonpure functions). The side effects are the resources provisioned as a result of `terraform apply`.
+
+<img src="images/1753435587751.png" alt="alt text" width="600"/>
