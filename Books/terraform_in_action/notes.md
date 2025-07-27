@@ -81,6 +81,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
     - [4.3 Root module](#43-root-module)
       - [4.3.1 Code](#431-code)
     - [4.4 Networking module](#44-networking-module)
+    - [4.5 Database module](#45-database-module)
 
 
 
@@ -1287,6 +1288,8 @@ module "db_sg" {
 }
 ```
 
+In `outputs.tf`, note the `vpc` output passes a reference to the entire output of the VPC module. Also note how the `sg` output is made up of a new object containing the IDs of the security groups from different resources.
+
 [outputs.tf:](./ch04/three_tier/modules/networking/outputs.tf)
 ```hcl
 output "vpc" {
@@ -1295,11 +1298,15 @@ output "vpc" {
 
 output "sg" {
   value = {
-    lb     = module.lb_sg.security_group.id #B
-    db     = module.db_sg.security_group.id #B
-    websvr = module.websvr_sg.security_group.id #B
+    lb     = module.lb_sg.security_group.id
+    db     = module.db_sg.security_group.id
+    websvr = module.websvr_sg.security_group.id
   }
 }
 ```
 
+#### 4.5 Database module
 
+The database module provisions the database:
+
+<img src='images/1753614821924.png' alt='alt text' width='600'/>
