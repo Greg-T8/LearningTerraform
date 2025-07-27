@@ -8,7 +8,7 @@ module "database" {
   namespace = var.namespace
 
   vpc = module.networking.vpc
-  sg = module.networking.sg
+  sg  = module.networking.sg
 }
 
 module "networking" {

@@ -82,6 +82,8 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [4.3.1 Code](#431-code)
     - [4.4 Networking module](#44-networking-module)
     - [4.5 Database module](#45-database-module)
+      - [4.5.1 Passing data from the networking module](#451-passing-data-from-the-networking-module)
+      - [4.5.2 Generating a random password](#452-generating-a-random-password)
 
 
 
@@ -1114,7 +1116,7 @@ The root module consists of six files:
 ##### 4.3.1 Code
 
 
-[File - `variables.tf`](./ch04/three_tier/variables.tf)
+[Root module - variables.tf](./ch04/three_tier/variables.tf)
 ```hcl
 variable "namespace" {
   description = "The project namespace to use for unique resource naming"
@@ -1134,9 +1136,9 @@ variable "region" {
 }
 ```
 
-The variables definition file allows you to parameterize configuration code without having to hardcode default values. It only consists of variable names and assignemnts.
+The variables definition file allows you to parameterize configuration code without having to hardcode default values. It only consists of variable names and assignments.
 
-[File - `terraform.tfvars`](./ch04/three_tier/terraform.tfvars)
+[Root module - terraform.tfvars](./ch04/three_tier/terraform.tfvars)
 ```hcl
 namespace = "my-cool-project"
 region    = "us-west-2"
@@ -1156,7 +1158,7 @@ The `namespace` variable is a project identifier. Some modules use two variables
 We pass `namespace` into each of the three child modules. The current module files will initially serve as stubs, but they will be fleshed out later.
 
 
-[File - `main.tf`](./ch04/three_tier/main.tf)
+[Root module - main.tf](./ch04/three_tier/main.tf)
 ```hcl
 module "autoscaling" {
   source      = "./modules/autoscaling"             # Nested child modules are sourced from a local modules directory
@@ -1174,7 +1176,7 @@ module "networking" {
 }
 ```
 
-[File - `outputs.tf`](./ch04/three_tier/outputs.tf)
+[Root module - outputs.tf](./ch04/three_tier/outputs.tf)
 ```hcl
 output "db_password" {
   value = "tbd"
@@ -1186,7 +1188,7 @@ output "lb_dns_name" {
 
 The last thing you want to do is lock  in the provider and Terraform versions. Normally, you would wait until after running `terraform init`, since that command downloads the provider plugins, but the author has already done this ahead of time.
 
-[File - `versions.tf`](./ch04/three_tier/versions.tf)
+[Root module - versions.tf](./ch04/three_tier/versions.tf)
 ```hcl
 terraform {
   required_version = ">= 0.15"
@@ -1220,7 +1222,7 @@ I created the `modules/networking` directory and added the following files:
 - `variables.tf`
 - `outputs.tf`
 
-[variables.tf:](./ch04/three_tier/modules/networking/variables.tf)
+[Networking module - variables.tf:](./ch04/three_tier/modules/networking/variables.tf)
 ```hcl
 variable "namespace" {
   type = string
@@ -1235,7 +1237,7 @@ Resources are also declared so that they feed into each other, one after another
 
 In the following file, note how some modules are made up of other modules. For example, instead of writing the code to deploy a VPC ourselves, we are using a VPC module maintained by the AWS team.
 
-[main.tf:](./ch04/modules/../three_tier/modules/networking/main.tf)
+[Networking module - main.tf:](./ch04/modules/../three_tier/modules/networking/main.tf)
 ```hcl
 data "aws_availability_zones" "available" {}
 
@@ -1290,7 +1292,7 @@ module "db_sg" {
 
 In `outputs.tf`, note the `vpc` output passes a reference to the entire output of the VPC module. Also note how the `sg` output is made up of a new object containing the IDs of the security groups from different resources.
 
-[outputs.tf:](./ch04/three_tier/modules/networking/outputs.tf)
+[Networking module - outputs.tf:](./ch04/three_tier/modules/networking/outputs.tf)
 ```hcl
 output "vpc" {
   value = module.vpc
@@ -1310,3 +1312,66 @@ output "sg" {
 The database module provisions the database:
 
 <img src='images/1753614821924.png' alt='alt text' width='600'/>
+
+<img src='images/1753614904967.png' alt='alt text' width='600'/>
+
+<img src='images/1753614934791.png' alt='alt text' width='600'/>
+
+##### 4.5.1 Passing data from the networking module
+
+THe database module requires references to VPC and database security group ID. Both of these are declared as outputs of the networking module. To get this data into the database module, you need to "bubble up" from the networking module into the root module, and then pass it down into the database module.
+
+<img src='images/1753615066073.png' alt='alt text' width='750'/>
+
+You can pass data between modules so that two modules can share each other's outputs. However, you should avoid interdependent modules because they can lead to circular dependencies.
+
+<img src='images/1753615253256.png' alt='alt text' width='600'/>
+
+In the root module, we introduce references to the networking module outputs:
+
+[Root module - main.tf](./ch04/three_tier/main.tf)
+```hcl
+module "autoscaling" {
+  source      = "./modules/autoscaling"
+  namespace   = var.namespace
+}
+
+module "database" {
+  source    = "./modules/database"
+  namespace = var.namespace
+
+  vpc = module.networking.vpc                   # Reference to the VPC output from the networking module
+  sg = module.networking.sg
+}
+
+module "networking" {
+  source    = "./modules/networking"
+  namespace = var.namespace
+}
+```
+
+Next, I create the database module in the `modules/database` directory and add the following files:
+- `main.tf`
+- `variables.tf`
+- `outputs.tf`
+
+In the following code, the `vpc` and `sg` types are specified as `any` to allow for any type of data structure to be passed in. This is convenient for times when you don't care about strict type checking.
+
+[Database module - variables.tf](./ch04/three_tier/modules/database/variables.tf)
+```hcl
+variable "namespace" {
+  type = string
+}
+
+variable "vpc" {
+  type = any                # A type constrain of "any" means that Terraform skips type checking
+}
+
+variable "sg" {
+  type = any
+}
+```
+
+##### 4.5.2 Generating a random password
+
+
