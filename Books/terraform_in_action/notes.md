@@ -1374,4 +1374,56 @@ variable "sg" {
 
 ##### 4.5.2 Generating a random password
 
+We need to generate a random password for the database. 
 
+[Database module - main.tf](./ch04/three_tier/modules/database/main.tf)
+
+```hcl
+resource "random_password" "password" {                     # Uses the random provider to create password
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
+resource "aws_db_instance" "database" {
+  allocated_storage      = 10
+  engine                 = "mysql"
+  engine_version         = "8.0"
+  instance_class         = "db.t2.micro"
+  identifier             = "${var.namespace}-db-instance"
+  name                   = "pets"
+  username               = "admin"
+  password               = random_password.password.result
+  db_subnet_group_name   = var.vpc.database_subnet_group        # These values come from the networking module
+  vpc_security_group_ids = [var.sg.db]
+  skip_final_snapshot    = true
+}
+```
+
+Next, construct the output value consisting of the database configuration required for the application to connect to the database:
+
+[Database module - outputs.tf](./ch04/three_tier/modules/database/outputs.tf)
+```hcl
+output "db_config" {
+  value = {
+    user     = aws_db_instance.database.username            # All of this data comes from the output of the aws_db_instance resource
+    password = aws_db_instance.database.password
+    database = aws_db_instance.database.name
+    hostname = aws_db_instance.database.address
+    port     = aws_db_instance.database.port
+  }
+}
+```
+
+Moving back to the root module, we can make the database password availabe to the CLI user by adding an output value in `outputs.tf`:
+
+[Root module - outputs.tf]()
+```hcl
+output "db_password" {
+  value = module.database.db_config.password                # Output value from the database module
+}
+
+output "lb_dns_name" {
+  value = "tbd"
+}
+```
