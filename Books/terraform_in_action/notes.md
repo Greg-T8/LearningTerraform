@@ -87,6 +87,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
     - [4.6 Autoscaling module](#46-autoscaling-module)
       - [4.6.1 Trickling down data](#461-trickling-down-data)
       - [4.6.2 Templating a `cloudinit_config`](#462-templating-a-cloudinit_config)
+    - [4.7 Deploying the web application](#47-deploying-the-web-application)
 
 
 
@@ -1593,3 +1594,58 @@ module "alb" {
   ]
 }
 ```
+
+More about the following line under `cloudinit_config`:  `templatefile("${path.module}/cloud_config.yaml", var.db_config)`
+
+The cloud init configuration uses the `templatefile()` function. The result of this function is passed into the `cloudinit_config` data source and then used to configure the `aws_launch_template` resource.
+
+[Autoscaling module - cloud_config.yaml](./ch04/three_tier/modules/autoscaling/cloud_config.yaml)
+```yaml
+#cloud-config
+write_files:
+  -   path: /etc/server.conf
+      owner: root:root
+      permissions: "0644"
+      content: |
+        {
+          "user":  "${user}",
+          "password": "${password}",
+          "database": "${database}",
+          "netloc": "${hostname}:${port}"
+        }
+runcmd:
+  - curl -sL https://api.github.com/repos/scottwinkler/vanilla-webserver-src/releases/latest | jq -r ".assets[].browser_download_url" | wget -qi - 
+  - unzip deployment.zip
+  - ./deployment/server
+packages:
+  - jq
+  - wget
+  - unzip
+```
+
+This cloud init file installs some packages, creates a configuration file, and fetches application code (deployment.zip).
+
+Finally, the output of the module is `lb_dns_name`, which is bubbled up to the root module.:
+
+[Autoscaling module - outputs.tf](./ch04/three_tier/modules/autoscaling/outputs.tf)
+```hcl
+output "lb_dns_name" {
+  value = module.alb.this_lb_dns_name
+}
+```
+
+We also update the root module to include a reference to this output:
+
+[Root module - outputs.tf](./ch04/three_tier/outputs.tf)
+```hcl
+output "db_password" {
+  value = module.database.db_config.password
+  sensitive = true 
+}
+
+output "lb_dns_name" {
+  value = module.autoscaling.lb_dns_name
+}
+```
+
+#### 4.7 Deploying the web application
