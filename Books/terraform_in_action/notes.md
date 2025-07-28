@@ -84,6 +84,9 @@ terraform fmt       # Format Terraform configuration files to a canonical format
     - [4.5 Database module](#45-database-module)
       - [4.5.1 Passing data from the networking module](#451-passing-data-from-the-networking-module)
       - [4.5.2 Generating a random password](#452-generating-a-random-password)
+    - [4.6 Autoscaling module](#46-autoscaling-module)
+      - [4.6.1 Trickling down data](#461-trickling-down-data)
+      - [4.6.2 Templating a `cloudinit_config`](#462-templating-a-cloudinit_config)
 
 
 
@@ -1425,5 +1428,168 @@ output "db_password" {
 
 output "lb_dns_name" {
   value = "tbd"
+}
+```
+
+#### 4.6 Autoscaling module
+
+This module provisions the autoscaling group, load balancer, Identity and Access Management (IAM) instance role, and everything else the web server needs to run.
+
+<img src='images/1753696097143.png' width="600">
+
+<img src='images/1753696147136.png' width="600">
+
+
+##### 4.6.1 Trickling down data
+
+The three input variables of the autoscaling module are `vpc`, `sg`, and `db_config`. `vpc` and `sg` come from the networking module, while `db_config` comes from the database module.
+
+<img src='images/1753696327752.png' width="600">
+
+<img src='images/1753696363947.png' width="600">
+
+We need to update `main.tf` in the root module to trickle down data into the autoscaling module:
+
+[Root module - main.tf](./ch04/three_tier/main.tf)
+```hcl
+module "autoscaling" {                             
+  source      = "./modules/autoscaling"
+  namespace   = var.namespace
+  ssh_keypair = var.ssh_keypair                     
+
+  vpc       = module.networking.vpc             # Input arguments set by other module's outputs
+  sg        = module.networking.sg
+  db_config = module.database.db_config
+}
+
+module "database" {
+  source    = "./modules/database"
+  namespace = var.namespace
+
+  vpc = module.networking.vpc
+  sg  = module.networking.sg
+}
+
+module "networking" {
+  source    = "./modules/networking"
+  namespace = var.namespace
+}
+```
+
+
+The module's input variables are declared in `variables.tf`. We create a `./modules/autoscaling` directory and create the `variables.tf` file:
+
+[Autoscaling module - variables.tf](./ch04/three_tier/modules/autoscaling/variables.tf)
+```hcl
+variable "namespace" {
+  type = string
+}
+
+variable "ssh_keypair" {
+  type = string
+}
+
+variable "vpc" {
+  type = any
+}
+
+variable "sg" {
+  type = any
+}
+
+variable "db_config" {
+  type = object(                # Enforces strict type schema for the `db_config` object.
+    {
+      user     = string
+      password = string
+      database = string
+      hostname = string
+      port     = string
+    }
+  )
+}
+```
+
+##### 4.6.2 Templating a `cloudinit_config`
+
+The `cloudinit_config` data source is used to create user data fromteh launch template. The launch template is just a blueprint for the autoscaling group, as it bundles user data, the AMI ID, and other metadata.
+
+The autoscaling group has a dependency on the load balancer because it needs to register itself as a target listener.
+
+<img src='images/1753697431781.png' width="600">
+
+[Autoscaling module - main.tf]()
+```hcl
+module "iam_instance_profile" {
+  source  = "terraform-in-action/iip/aws"
+  actions = ["logs:*", "rds:*"]                         # The permissions are too open for production deployments, but good enough for dev
+}
+
+data "cloudinit_config" "config" {
+  gzip          = true
+  base64_encode = true
+  part {
+    content_type = "text/cloud-config"
+    content      = templatefile("${path.module}/cloud_config.yaml", var.db_config)      # Content for the cloud init configuration comes from the template file
+  }
+}
+
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+  }
+  owners = ["099720109477"]
+}
+
+resource "aws_launch_template" "webserver" {
+  name_prefix   = var.namespace
+  image_id      = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
+  user_data     = data.cloudinit_config.config.rendered
+  key_name      = var.ssh_keypair
+  iam_instance_profile {
+    name = module.iam_instance_profile.name
+  }
+  vpc_security_group_ids = [var.sg.websvr]
+}
+
+resource "aws_autoscaling_group" "webserver" {
+  name                = "${var.namespace}-asg"
+  min_size            = 1
+  max_size            = 3
+  vpc_zone_identifier = var.vpc.private_subnets
+  target_group_arns   = module.alb.target_group_arns
+  launch_template {
+    id      = aws_launch_template.webserver.id
+    version = aws_launch_template.webserver.latest_version
+  }
+}
+
+module "alb" {
+  source             = "terraform-aws-modules/alb/aws"
+  version            = "~> 5.0"
+  name               = var.namespace
+  load_balancer_type = "application"
+  vpc_id             = var.vpc.vpc_id
+  subnets            = var.vpc.public_subnets
+  security_groups    = [var.sg.lb]
+
+  http_tcp_listeners = [
+    {
+      port               = 80,                                  # Listens on port 80 and NATs to 8080
+      protocol           = "HTTP"
+      target_group_index = 0
+    }
+  ]
+
+  target_groups = [
+    { name_prefix      = "websvr",
+      backend_protocol = "HTTP",
+      backend_port     = 8080
+      target_type      = "instance"
+    }
+  ]
 }
 ```
