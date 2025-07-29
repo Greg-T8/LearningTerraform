@@ -1757,3 +1757,5 @@ And the site responds over the Internet!
 <img src='images/1753786718044.png' width='400'/>
 
 Then run `terraform destroy -auto-approve` to tear down the infrastructure.
+
+<img src='images/1753788821894.png' width='400'/>
