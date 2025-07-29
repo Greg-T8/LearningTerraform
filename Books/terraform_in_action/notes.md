@@ -1649,3 +1649,103 @@ output "lb_dns_name" {
 ```
 
 #### 4.7 Deploying the web application
+
+Here is a look at the final directory structure:
+
+<img src="images/1753781132129.png" width="500"/>
+
+Before deploying, check your AWS credentials by running `aws configure`:
+
+```powershell
+╭─( ~\LocalCode\LearningTerraform\...\ch04\three_tier [main ≡ +1 ~2 -0 !]
+╰╴> aws configure
+AWS Access Key ID [None]: ***************************
+AWS Secret Access Key [None]: ***************************
+Default region name [None]: us-west-2
+Default output format [None]: 
+```
+
+Next, run `terraform init` to download the required providers and modules, followed by `terraform apply` to deploy the infrastructure.
+
+**Note:** I received the following error:
+
+```powershell
+│ Error: Your query returned no results. Please change your search criteria and try again.
+│
+│   with module.autoscaling.data.aws_ami.ubuntu,
+│   on modules\autoscaling\main.tf line 15, in data "aws_ami" "ubuntu":
+│   15: data "aws_ami" "ubuntu" {
+```
+
+This error refers to the following code in `main.tf`, indicating the AWS image can't be found:
+
+```hcl
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+  }
+  owners = ["099720109477"]
+}
+```
+
+I ran the following command to find the latest Ubuntu AMI ID:
+
+```powershell
+aws ec2 describe-images ` 
+  --owners 099720109477 `
+  --filters Name=name,Values='ubuntu/images/hvm-ssd/ubuntu-*' `
+  --query 'Images[*].[Name,ImageId]' `
+  --region us-west-2
+```
+
+The results of the command show that the `bionic` image is no longer available, so I chose the closest available image, which is `ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20250603`.
+
+After re-running `terraform apply`, I encountered two more errorsafter kicking off the deployment:
+
+```powershell
+│ Error: Error creating DB Instance: InvalidParameterCombination: RDS does not support creating a DB instance with the following combination: DBInstanceClass=db.t2.micro, Engine=mysql, EngineVersion=8.0.41, LicenseModel=general-public-license. For supported combinations of instance class and database engine version, see the documentation.
+│       status code: 400, request id: 731e728e-23be-443b-91ba-87451f8478ee
+│
+│   with module.database.aws_db_instance.database,
+│   on modules\database\main.tf line 7, in resource "aws_db_instance" "database":
+│    7: resource "aws_db_instance" "database" {
+│
+╵
+╷
+│ Error: failed creating IAM Role (terraform-20250729094623111900000001): AccessDenied: User: arn:aws:iam::194903044381:user/gtate is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::194903044381:role/terraform-20250729094623111900000001 because no identity-based policy allows the iam:CreateRole action
+│       status code: 403, request id: 90acc6e1-6a7d-4c54-940d-9524afd7e55a
+│
+│   with module.autoscaling.module.iam_instance_profile.aws_iam_role.iam_role,
+│   on .terraform\modules\autoscaling.iam_instance_profile\main.tf line 5, in resource "aws_iam_role" "iam_role":
+│    5: resource "aws_iam_role" "iam_role" {
+```
+
+To remedy the first error, I ran the following query and noticed that the `db.t2.micro` instance class is no longer avaialble, so I changed the instance class to `db.t3.micro` in `modules/database/main.tf`:
+
+```powershell
+╭─( ~
+╰╴> $results = aws rds describe-orderable-db-instance-options `
+>>   --engine mysql `
+>>   --engine-version 8.0.41 `
+>>   --region us-west-2 `
+>>   --query "OrderableDBInstanceOptions[*].DBInstanceClass"
+
+╭─( ~
+╰╴> $results | convertfrom-json | ? {$_ -match 'db.t.*micro$'}
+db.t3.micro
+db.t3.micro
+db.t3.micro
+db.t3.micro
+db.t3.micro
+db.t4g.micro
+db.t4g.micro
+db.t4g.micro
+db.t4g.micro
+db.t4g.micro
+```
+
+To remedy the second error, I updated permissions for my AWS login.
+
+After running `terraform apply` again...

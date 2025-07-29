@@ -23,3 +23,5 @@ variable "db_config" {
       hostname = string
       port     = string
     }
+  )
+}
