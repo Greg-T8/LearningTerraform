@@ -1748,4 +1748,12 @@ db.t4g.micro
 
 To remedy the second error, I updated permissions for my AWS login.
 
-After running `terraform apply` again...
+After running `terraform apply` again, and about 20 minutes later, the deployment completed successfully:
+
+<img src='images/1753786605835.png' width='800'/>
+
+And the site responds over the Internet!
+
+<img src='images/1753786718044.png' width='400'/>
+
+Then run `terraform destroy` to tear down the infrastructure.
