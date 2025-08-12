@@ -95,6 +95,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [5.2.1 Sorting by group and then by size](#521-sorting-by-group-and-then-by-size)
     - [5.3 Writing the code](#53-writing-the-code)
       - [5.3.1 Resource group](#531-resource-group)
+      - [5.3.2 Storage container](#532-storage-container)
 
 
 
@@ -1923,6 +1924,7 @@ In Azure, every resource must live in a resource group—a container for related
 
 Create the resource group:
 
+[main.tf](./ch05/Two-Penny-Website/main.tf)
 ```hcl
 resource "azurerm_resource_group" "default" {
   name     = local.namespace
@@ -1932,6 +1934,7 @@ resource "azurerm_resource_group" "default" {
 
 Some Azure resources must be globally unique. Add extra randomness to the namespace by appending a random suffix, then truncate to a safe length. Place this before the resource group so the dependency is clear:
 
+[main.tf](./ch05/Two-Penny-Website/main.tf)
 ```hcl
 resource "random_string" "rand" {
   length  = 24
@@ -1943,3 +1946,40 @@ locals {
   namespace = substr(join("-", [var.namespace, random_string.rand.result]), 0, 24)			// Right-pad namespace with randomness; store as local
 }
 ```
+
+##### 5.3.2 Storage container
+
+Next, we’ll use an Azure storage container to store the application’s source code and documents in a NoSQL database (see figure 5.9).
+
+The NoSQL database is technically a separate service—Azure Table Storage—but it’s essentially a NoSQL wrapper around standard key-value pairs.
+
+<img src='images/1754992899252.png' alt='alt text' width='600'/>
+
+Provisioning a container in Azure takes two steps:
+
+1. Create a **storage account**, which defines where the data is stored and its replication settings. Standard values balance cost and durability.
+2. Create the **storage container** itself.
+
+Here’s the code for both:
+
+
+```hcl
+resource "azurerm_storage_account" "storage_account" {
+  name                     = random_string.rand.result
+  resource_group_name      = azurerm_resource_group.default.name
+  location                 = azurerm_resource_group.default.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_storage_container" "storage_container" {
+  name                  = "serverless"
+  storage_account_name  = azurerm_storage_account.storage_account.name
+  container_access_type = "private"
+}
+```
+
+Note: Azure Storage can host static websites and serve as a CDN, but the Azure provider doesn’t currently support configuring this directly. Workarounds exist using `local-exec` provisioners, but these aren’t best practice. Chapter 7 covers provisioners in detail. In this project, Azure Functions will serve both the static content and the REST API.
+
+
+Revise above...
