@@ -88,6 +88,13 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [4.6.1 Trickling down data](#461-trickling-down-data)
       - [4.6.2 Templating a `cloudinit_config`](#462-templating-a-cloudinit_config)
     - [4.7 Deploying the web application](#47-deploying-the-web-application)
+- [Part 2: Terraform in the wild](#part-2-terraform-in-the-wild)
+  - [Chapter 5: Serverless made easy](#chapter-5-serverless-made-easy)
+    - [5.1 The "two-penny website"](#51-the-two-penny-website)
+    - [5.2 Architecture and planning](#52-architecture-and-planning)
+      - [5.2.1 Sorting by group and then by size](#521-sorting-by-group-and-then-by-size)
+    - [5.3 Writing the code](#53-writing-the-code)
+      - [5.3.1 Resource group](#531-resource-group)
 
 
 
@@ -1759,3 +1766,180 @@ And the site responds over the Internet!
 Then run `terraform destroy -auto-approve` to tear down the infrastructure.
 
 <img src='images/1753788821894.png' width='400'/>
+
+## Part 2: Terraform in the wild
+
+Now the fun begins—depending on your idea of fun.
+The next few chapters cover real-world Terraform design patterns for AWS, GCP, and Azure. Part 2 ends with an ambitious multi-cloud deployment that showcases Terraform’s full potential. Even if you’re unfamiliar with some clouds, the skills you gain will apply everywhere.
+
+Chapter 5 introduces Azure and emerging technologies. You’ll design and deploy a serverless web application with Terraform. By the end, you’ll feel confident writing Terraform configurations, even unconventional ones.
+
+Chapter 6 covers Terraform’s ecosystem and best practices. You’ll learn how to manage remote state storage, publish modules to the Terraform Registry, and understand where services like Terraform Cloud and Terraform Enterprise fit.
+
+Chapter 7 dives into Kubernetes and GCP. You’ll deploy and test a CI/CD pipeline for containerized applications and explore tricks using local-exec provisioners.
+
+Chapter 8 brings AWS, GCP, and Azure together. You’ll try approaches ranging from a simple multi-cloud load balancer to orchestrating and federating multiple Nomad and Consul clusters. The goal is to leave you with a sense of awe—and the knowledge that Terraform can handle almost anything.
+
+
+### Chapter 5: Serverless made easy
+
+This chapter covers:
+
+* Deploying a serverless web application in Azure
+* Understanding design patterns for Terraform modules
+* Downloading arbitrary code with Terraform
+* Combining Terraform with Azure Resource Manager (ARM)
+
+“Serverless” is often overused as a marketing term, despite no clear consensus on its meaning. It doesn’t mean the absence of servers—distributed systems often use more servers than traditional designs.
+
+Serverless is not a single technology but a set of related ones with two main traits:
+
+* Pay-as-you-go billing — You pay for actual resource consumption, not pre-purchased capacity.
+* Minimal operational overhead — The cloud provider handles scaling, maintenance, and management.
+
+The main benefit is reduced workload for you, with the tradeoff of less control. On-premises data centers require the most work and give the most control. SaaS requires the least work and offers the least control. Serverless sits between these, leaning closer to SaaS.
+
+<img src='images/1754990589107.png' alt='alt text' width='600'/>
+
+In this chapter, we deploy an Azure Functions website with Terraform. Azure Functions is a serverless technology, like AWS Lambda or Google Cloud Functions, that lets you run code without managing servers.
+
+Our architecture will resemble the web app from chapter 4 but in a serverless form.
+
+Functions are atomic—the smallest unit of logic in programming, created by breaking a monolith into its basic parts. They are easy to test and scale, making them well-suited for serverless applications. The tradeoff is that their stateless and highly compartmentalized nature requires more connections and integration between components.
+
+<img src='images/1754990660879.png' alt='alt text' width='600'/>
+
+#### 5.1 The "two-penny website"
+
+I call this scenario “the two-penny website” because it costs about that much to run each month. A year of hosting could be covered by spare change from your sofa cushions. For most low-traffic sites, the cost may be even lower—sometimes effectively zero.
+
+The site is a ballroom dancing forum called *Ballroom Dancers Anonymous*. Unauthenticated users can post public comments, which are displayed on the site and stored in a database. The simple design makes it easy to adapt for other applications. Figure 5.2 shows a preview of the final product.
+
+<img src='images/1754990763087.png' alt='alt text' width='600'/>
+
+We will use Azure to deploy the serverless website, but it shouldn’t feel any different than deploying to AWS. A basic deployment strategy is shown in figure 5.3.
+
+<img src='images/1754990795977.png' alt='alt text' width='600'/>
+
+#### 5.2 Architecture and planning
+
+Despite costing only pennies to run, this website is far from a toy. Running on Azure Functions allows it to scale quickly to handle large traffic spikes with low latency. It also uses HTTPS, a NoSQL database, and serves both static content (HTML/CSS/JS) and a REST API. Figure 5.4 shows the architecture diagram.
+
+<img src='images/1754990884996.png' alt='alt text' width='600'/>
+
+##### 5.2.1 Sorting by group and then by size
+
+Since the code is short and cohesive, it’s best to keep everything in a single main.tf file rather than using nested modules.
+
+**Tip:** As a general rule, keep Terraform files under a few hundred lines. Beyond that, it becomes harder to maintain a clear mental model of the code. The exact limit is up to you.
+
+Without nested modules, code can still be organized for clarity. As covered in chapter 4, placing resources with fewer dependencies toward the top of the file, and those with more dependencies toward the bottom, is a good approach. The challenge comes when two resources have the same number of dependencies, which can introduce ambiguity.
+
+Grouping resources that “belong together” means organizing them based on their natural relationships, not just their dependency count.
+
+Sorting purely by dependencies can be limiting. For example, if you had a bag of multicolored marbles, ordering them from smallest to largest wouldn’t help you find a specific color. A better method would be to first group by color, then sort each group by size, and finally arrange the groups so the overall order still follows increasing size.
+
+<img src='images/1754991031420.png' alt='alt text' width='600'/>
+
+Organizing by characteristics other than dependency count—referred to here as “size”—is a common practice for writing clean Terraform code. The approach is to first group related resources, then sort each group by size, and finally arrange the groups so the overall order still follows increasing size. This keeps the code both readable and easy to understand.
+
+<img src='images/1754991103174.png' alt='alt text' width='600'/>
+
+Just as it’s easier to find a word in a dictionary than in a word-search puzzle, it’s quicker to locate what you need when your code is organized logically, such as the sorting pattern in figure 5.5.
+
+This project is divided into four groups, each with a distinct role in the deployment:
+
+* **Resource group** — An Azure resource that acts as a project container. It and other base-level resources go at the top of main.tf since they have no dependencies.
+* **Storage container** — Like an S3 bucket, it stores the versioned build artifact (source code) used by Azure Functions and also functions as the NoSQL database.
+* **Storage blob** — Similar to an S3 object, it is uploaded to the storage container.
+* **Azure Functions app** — All resources related to deploying and configuring the Azure Functions app.
+
+<img src='images/1754991205352.png' alt='alt text' width='600'/>
+
+Finally, we define inputs and outputs.
+
+There are two input variables:
+
+* **location** — Specifies the Azure region.
+* **namespace** — Ensures a consistent naming scheme.
+
+The single output is **website\_url**, which links to the deployed website (see figure 5.7).
+
+<img src='images/1754991325583.png' alt='alt text' width='600'/>
+
+#### 5.3 Writing the code
+
+We need to create four groups:
+
+* Resource group
+* Storage container
+* Storage blob
+* Azure Functions app
+
+Before writing the code, authenticate to Microsoft Azure and set the required input variables. 
+
+
+After authenticating to Azure, create a workspace with three files: variables.tf, terraform.tfvars, and providers.tf.
+
+Add to variables.tf:
+
+[variables.tf](./ch05/Two-Penny-Website/variables.tf)
+```hcl
+variable "location" {
+  type    = string
+  default = "westus2"
+}
+
+variable "namespace" {
+  type    = string
+  default = "ballroominaction"
+}
+```
+Set variables in terraform.tfvars (defaults are fine, but we’ll be explicit):
+
+[terraform.tfvars](./ch05/Two-Penny-Website/terraform.tfvars)
+```hcl
+location  = "westus2"
+namespace = "ballroominaction"
+```
+Declare the Azure provider in providers.tf (empty when using CLI auth):
+
+[providers.tf](./ch05/Two-Penny-Website/providers.tf)
+```hcl
+provider "azurerm" {
+  features {}
+}
+```
+
+Tip: never hardcode secrets in Terraform. Keep sensitive data out of version control. (See chapters 6 and 13 for secret management.)
+
+##### 5.3.1 Resource group
+
+We’ll start with the first group: the resource group.
+
+<img src='images/1754991925314.png' alt='alt text' width='600'/>
+
+In Azure, every resource must live in a resource group—a container for related resources. Deleting the group deletes everything inside. Give each Terraform deployment its own group to keep resources organized. AWS and GCP have similar concepts, but only Azure requires it.
+
+Create the resource group:
+
+```hcl
+resource "azurerm_resource_group" "default" {
+  name     = local.namespace
+  location = var.location
+}
+```
+
+Some Azure resources must be globally unique. Add extra randomness to the namespace by appending a random suffix, then truncate to a safe length. Place this before the resource group so the dependency is clear:
+
+```hcl
+resource "random_string" "rand" {
+  length  = 24
+  special = false
+  upper   = false
+}
+
+locals {
+  namespace = substr(join("-", [var.namespace, random_string.rand.result]), 0, 24)			// Right-pad namespace with randomness; store as local
+}
+```
