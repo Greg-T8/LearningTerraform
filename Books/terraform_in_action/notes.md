@@ -96,6 +96,8 @@ terraform fmt       # Format Terraform configuration files to a canonical format
     - [5.3 Writing the code](#53-writing-the-code)
       - [5.3.1 Resource group](#531-resource-group)
       - [5.3.2 Storage container](#532-storage-container)
+      - [5.3.3 Storage blob](#533-storage-blob)
+      - [5.3.4 Function app](#534-function-app)
 
 
 
@@ -1962,7 +1964,7 @@ Provisioning a container in Azure takes two steps:
 
 Here’s the code for both:
 
-
+[main.tf](./ch05/Two-Penny-Website/main.tf)
 ```hcl
 resource "azurerm_storage_account" "storage_account" {
   name                     = random_string.rand.result
@@ -1979,7 +1981,47 @@ resource "azurerm_storage_container" "storage_container" {
 }
 ```
 
-Note: Azure Storage can host static websites and serve as a CDN, but the Azure provider doesn’t currently support configuring this directly. Workarounds exist using `local-exec` provisioners, but these aren’t best practice. Chapter 7 covers provisioners in detail. In this project, Azure Functions will serve both the static content and the REST API.
+**Note:** Azure Storage can host static websites and serve as a CDN, but the Azure provider doesn’t currently support configuring this directly. Workarounds exist using `local-exec` provisioners, but these aren’t best practice. Chapter 7 covers provisioners in detail. In this project, Azure Functions will serve both the static content and the REST API.
 
+##### 5.3.3 Storage blob
 
-Revise above...
+One thing that's nice about Azure Functions is the variety of deployment options. For example, you can:
+
+* Use the Azure Functions CLI tool.
+* Edit the code manually in the UI.
+* Use the VS Code extension.
+* Run from a zip package via a publicly accessible URL.
+
+For this scenario, we’ll use the last option because it lets us deploy the project with a single `terraform apply` command. The next step is to upload a storage blob to the container (see figure 5.10).
+
+<img src='images/1755077718412.png' alt='alt text' width='600'/>
+
+You might be wondering where the source code zip file comes from. Normally, you’d already have it locally or download it before Terraform runs as part of a CI/CD pipeline.
+
+To avoid extra steps, the author packaged the zip file into a Terraform module. Remote modules can be fetched from the Terraform Registry using either `terraform init` or `terraform get`. These commands download not just the configuration, but everything in the module.
+
+The author stored the entire application source code in a shim module so it’s downloaded automatically with `terraform init`. Figure 5.11 shows this setup.
+
+<img src='images/1755077818784.png' alt='alt text' width='600'/>
+
+**WARNING:** Modules can run malicious code locally by using `local-exec` provisioners. Always review the source of any untrusted module before deploying.
+
+The shim module here is used to download the build artifact to your local machine. This isn’t best practice, but it’s a useful shortcut for our example.
+
+Add the following to `main.tf`:
+
+```hcl
+module "ballroom" {
+  source = "terraform-in-action/ballroom/azure"
+}
+
+resource "azurerm_storage_blob" "storage_blob" {
+  name                   = "server.zip"
+  storage_account_name   = azurerm_storage_account.storage_account.name
+  storage_container_name = azurerm_storage_container.storage_container.name
+  type                   = "Block"
+  source                 = module.ballroom.output_path
+}
+```
+
+##### 5.3.4 Function app
