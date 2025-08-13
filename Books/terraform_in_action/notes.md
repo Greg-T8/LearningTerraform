@@ -98,6 +98,8 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [5.3.2 Storage container](#532-storage-container)
       - [5.3.3 Storage blob](#533-storage-blob)
       - [5.3.4 Function app](#534-function-app)
+      - [5.3.5 Final touches](#535-final-touches)
+    - [5.4 Deploying to Azure](#54-deploying-to-azure)
 
 
 
@@ -2121,3 +2123,340 @@ resource "azurerm_function_app" "function" {
   }
 }
 ```
+
+##### 5.3.5 Final touches
+
+We’re almost finished. The last tasks are to lock the provider versions and create an output for a quick link to the deployed site.
+
+[versions.tf](./ch05/Two-Penny-Website/versions.tf)
+
+```hcl
+terraform {
+  required_version = ">= 0.15"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 2.47"
+    }
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
+  }
+}
+```
+
+[outputs.tf](./ch05/Two-Penny-Website/outputs.tf)
+
+```hcl
+output "website_url" {
+  value = "https://${local.namespace}.azurewebsites.net/"
+}
+```
+**Note:** You can declare local values at the top of the file or next to the resources that use them&mdash;either style works.
+
+#### 5.4 Deploying to Azure
+
+We’ve completed the four steps for setting up the Azure serverless project and can now deploy.
+
+Run the following to initialize Terraform and check the configuration:
+
+```bash
+terraform init
+terraform plan
+```
+
+```pwsh
+terraform init
+
+Initializing the backend...
+Initializing modules...
+Downloading registry.terraform.io/terraform-in-action/ballroom/azure 1.0.0 for ballroom...
+- ballroom in .terraform\modules\ballroom
+Initializing provider plugins...
+- Finding hashicorp/random versions matching "~> 3.0"...
+- Finding hashicorp/azurerm versions matching "~> 2.47"...
+- Finding hashicorp/archive versions matching "~> 2.0"...
+- Installing hashicorp/random v3.7.2...
+- Installed hashicorp/random v3.7.2 (signed by HashiCorp)
+- Installing hashicorp/azurerm v2.99.0...
+- Installed hashicorp/azurerm v2.99.0 (signed by HashiCorp)
+- Installing hashicorp/archive v2.7.1...
+- Installed hashicorp/archive v2.7.1 (signed by HashiCorp)
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+```
+<details>
+<summary>terraform plan output</summary>
+
+```pwsh
+terraform plan
+
+module.ballroom.data.archive_file.code_package: Reading...
+module.ballroom.data.archive_file.code_package: Read complete after 1s [id=49183daed0ea5fa5dd9bcfa243676c338f748ffa]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # data.azurerm_storage_account_sas.storage_sas will be read during apply
+  # (config refers to values not yet known)
+ <= data "azurerm_storage_account_sas" "storage_sas" {
+      + connection_string = (sensitive value)
+      + expiry            = "2048-06-19T00:00:00Z"
+      + id                = (known after apply)
+      + sas               = (sensitive value)
+      + start             = "2016-06-19T00:00:00Z"
+
+      + permissions {
+          + add     = false
+          + create  = false
+          + delete  = false
+          + list    = false
+          + process = false
+          + read    = true
+          + update  = false
+          + write   = false
+        }
+
+      + resource_types {
+          + container = false
+          + object    = true
+          + service   = false
+        }
+
+      + services {
+          + blob  = true
+          + file  = false
+          + queue = false
+          + table = false
+        }
+    }
+
+  # azurerm_app_service_plan.plan will be created
+  + resource "azurerm_app_service_plan" "plan" {
+      + id                           = (known after apply)
+      + kind                         = "functionapp"
+      + location                     = "westus2"
+      + maximum_elastic_worker_count = (known after apply)
+      + maximum_number_of_workers    = (known after apply)
+      + name                         = (known after apply)
+      + resource_group_name          = (known after apply)
+
+      + sku {
+          + capacity = (known after apply)
+          + size     = "Y1"
+          + tier     = "Dynamic"
+        }
+    }
+
+  # azurerm_application_insights.application_insights will be created
+  + resource "azurerm_application_insights" "application_insights" {
+      + app_id                                = (known after apply)
+      + application_type                      = "web"
+      + connection_string                     = (sensitive value)
+      + daily_data_cap_in_gb                  = (known after apply)
+      + daily_data_cap_notifications_disabled = (known after apply)
+      + disable_ip_masking                    = false
+      + force_customer_storage_for_profiler   = false
+      + id                                    = (known after apply)
+      + instrumentation_key                   = (sensitive value)
+      + internet_ingestion_enabled            = true
+      + internet_query_enabled                = true
+      + local_authentication_disabled         = false
+      + location                              = "westus2"
+      + name                                  = (known after apply)
+      + resource_group_name                   = (known after apply)
+      + retention_in_days                     = 90
+      + sampling_percentage                   = 100
+    }
+
+  # azurerm_function_app.function will be created
+  + resource "azurerm_function_app" "function" {
+      + app_service_plan_id             = (known after apply)
+      + app_settings                    = (known after apply)
+      + client_affinity_enabled         = (known after apply)
+      + custom_domain_verification_id   = (known after apply)
+      + default_hostname                = (known after apply)
+      + enable_builtin_logging          = true
+      + enabled                         = true
+      + https_only                      = true
+      + id                              = (known after apply)
+      + key_vault_reference_identity_id = (known after apply)
+      + kind                            = (known after apply)
+      + location                        = "westus2"
+      + name                            = (known after apply)
+      + outbound_ip_addresses           = (known after apply)
+      + possible_outbound_ip_addresses  = (known after apply)
+      + resource_group_name             = (known after apply)
+      + site_credential                 = (known after apply)
+      + storage_account_access_key      = (sensitive value)
+      + storage_account_name            = (known after apply)
+      + storage_connection_string       = (sensitive value)
+      + version                         = "~2"
+
+      + auth_settings (known after apply)
+
+      + connection_string (known after apply)
+
+      + identity (known after apply)
+
+      + site_config (known after apply)
+
+      + source_control (known after apply)
+    }
+
+  # azurerm_resource_group.default will be created
+  + resource "azurerm_resource_group" "default" {
+      + id       = (known after apply)
+      + location = "westus2"
+      + name     = (known after apply)
+    }
+
+  # azurerm_storage_account.storage_account will be created
+  + resource "azurerm_storage_account" "storage_account" {
+      + access_tier                       = (known after apply)
+      + account_kind                      = "StorageV2"
+      + account_replication_type          = "LRS"
+      + account_tier                      = "Standard"
+      + allow_blob_public_access          = false
+      + enable_https_traffic_only         = true
+      + id                                = (known after apply)
+      + infrastructure_encryption_enabled = false
+      + is_hns_enabled                    = false
+      + large_file_share_enabled          = (known after apply)
+      + location                          = "westus2"
+      + min_tls_version                   = "TLS1_0"
+      + name                              = (known after apply)
+      + nfsv3_enabled                     = false
+      + primary_access_key                = (sensitive value)
+      + primary_blob_connection_string    = (sensitive value)
+      + primary_blob_endpoint             = (known after apply)
+      + primary_blob_host                 = (known after apply)
+      + primary_connection_string         = (sensitive value)
+      + primary_dfs_endpoint              = (known after apply)
+      + primary_dfs_host                  = (known after apply)
+      + primary_file_endpoint             = (known after apply)
+      + primary_file_host                 = (known after apply)
+      + primary_location                  = (known after apply)
+      + primary_queue_endpoint            = (known after apply)
+      + primary_queue_host                = (known after apply)
+      + primary_table_endpoint            = (known after apply)
+      + primary_table_host                = (known after apply)
+      + primary_web_endpoint              = (known after apply)
+      + primary_web_host                  = (known after apply)
+      + queue_encryption_key_type         = "Service"
+      + resource_group_name               = (known after apply)
+      + secondary_access_key              = (sensitive value)
+      + secondary_blob_connection_string  = (sensitive value)
+      + secondary_blob_endpoint           = (known after apply)
+      + secondary_blob_host               = (known after apply)
+      + secondary_connection_string       = (sensitive value)
+      + secondary_dfs_endpoint            = (known after apply)
+      + secondary_dfs_host                = (known after apply)
+      + secondary_file_endpoint           = (known after apply)
+      + secondary_file_host               = (known after apply)
+      + secondary_location                = (known after apply)
+      + secondary_queue_endpoint          = (known after apply)
+      + secondary_queue_host              = (known after apply)
+      + secondary_table_endpoint          = (known after apply)
+      + secondary_table_host              = (known after apply)
+      + secondary_web_endpoint            = (known after apply)
+      + secondary_web_host                = (known after apply)
+      + shared_access_key_enabled         = true
+      + table_encryption_key_type         = "Service"
+
+      + blob_properties (known after apply)
+
+      + customer_managed_key (known after apply)
+
+      + network_rules (known after apply)
+
+      + queue_properties (known after apply)
+
+      + routing (known after apply)
+
+      + share_properties (known after apply)
+    }
+
+  # azurerm_storage_blob.storage_blob will be created
+  + resource "azurerm_storage_blob" "storage_blob" {
+      + access_tier            = (known after apply)
+      + content_type           = "application/octet-stream"
+      + id                     = (known after apply)
+      + metadata               = (known after apply)
+      + name                   = "server.zip"
+      + parallelism            = 8
+      + size                   = 0
+      + source                 = ".terraform/modules/ballroom/dist/server.zip"
+      + storage_account_name   = (known after apply)
+      + storage_container_name = "serverless"
+      + type                   = "Block"
+      + url                    = (known after apply)
+    }
+
+  # azurerm_storage_container.storage_container will be created
+  + resource "azurerm_storage_container" "storage_container" {
+      + container_access_type   = "private"
+      + has_immutability_policy = (known after apply)
+      + has_legal_hold          = (known after apply)
+      + id                      = (known after apply)
+      + metadata                = (known after apply)
+      + name                    = "serverless"
+      + resource_manager_id     = (known after apply)
+      + storage_account_name    = (known after apply)
+    }
+
+  # random_string.rand will be created
+  + resource "random_string" "rand" {
+      + id          = (known after apply)
+      + length      = 24
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = false
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + website_url = (known after apply)
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+```
+</details>
+
+Next, deploy with:
+
+```bash
+terraform apply -auto-approve
+```
+
+Note: It’s safer to run `terraform plan` first. The `-auto-approve` flag is used here only for brevity.
+
