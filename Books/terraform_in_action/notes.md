@@ -106,6 +106,7 @@ terraform fmt       # Format Terraform configuration files to a canonical format
     - [5.5.2 Migrating from legacy code](#552-migrating-from-legacy-code)
     - [5.5.3 Generating configuration code](#553-generating-configuration-code)
       - [The dark road of generated code](#the-dark-road-of-generated-code)
+  - [Chapter 6: Terraform with friends](#chapter-6-terraform-with-friends)
 
 
 
@@ -2364,3 +2365,5 @@ Beyond Azure Resource Manager, many tools promise to generate configuration code
 In reality, writing Terraform code is the easy part—the challenge lies in deciding what you want to build. Generated code may look impressive, but it’s often of limited value. Complex automation and code generation tools usually lag behind the latest versions of the technologies they target.
 
 Think of it like website builders—WordPress, Wix, and Squarespace make it easy for non-technical users to create sites, but they haven’t replaced skilled frontend developers. Likewise, code generation tools can help speed up Terraform work, but they don’t replace the need to understand and write clean Terraform code yourself.
+
+### Chapter 6: Terraform with friends
