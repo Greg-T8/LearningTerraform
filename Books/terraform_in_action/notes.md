@@ -12,8 +12,9 @@
 <!-- omit from toc -->
 ## Helpful Commands
 
-```cmd
-terraform init      # Initialize a working directory containing Terraform configuration files
+```
+terraform init      # Initialize a working directory containing Terraform configuration files, downloads providers, and sets up modules
+terraform plan      # Reads current state and configuration files, then generates an execution plan showing what actions Terraform will take to change the infrastructure
 terraform apply     # Create or update infrastructure as defined in the configuration files
 terraform show      # Show the current state of the infrastructure managed by Terraform
 terraform fmt       # Format Terraform configuration files to a canonical format and style
@@ -100,6 +101,11 @@ terraform fmt       # Format Terraform configuration files to a canonical format
       - [5.3.4 Function app](#534-function-app)
       - [5.3.5 Final touches](#535-final-touches)
     - [5.4 Deploying to Azure](#54-deploying-to-azure)
+    - [5.5 Combining Azure Resource Manager (ARM) with Terraform](#55-combining-azure-resource-manager-arm-with-terraform)
+    - [5.5.1 Deploying unsupported resources](#551-deploying-unsupported-resources)
+    - [5.5.2 Migrating from legacy code](#552-migrating-from-legacy-code)
+    - [5.5.3 Generating configuration code](#553-generating-configuration-code)
+      - [The dark road of generated code](#the-dark-road-of-generated-code)
 
 
 
@@ -2202,8 +2208,6 @@ If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
 ```
-<details>
-<summary>terraform plan output</summary>
 
 ```pwsh
 terraform plan
@@ -2217,240 +2221,13 @@ Terraform used the selected providers to generate the following execution plan. 
 
 Terraform will perform the following actions:
 
-  # data.azurerm_storage_account_sas.storage_sas will be read during apply
-  # (config refers to values not yet known)
- <= data "azurerm_storage_account_sas" "storage_sas" {
-      + connection_string = (sensitive value)
-      + expiry            = "2048-06-19T00:00:00Z"
-      + id                = (known after apply)
-      + sas               = (sensitive value)
-      + start             = "2016-06-19T00:00:00Z"
-
-      + permissions {
-          + add     = false
-          + create  = false
-          + delete  = false
-          + list    = false
-          + process = false
-          + read    = true
-          + update  = false
-          + write   = false
-        }
-
-      + resource_types {
-          + container = false
-          + object    = true
-          + service   = false
-        }
-
-      + services {
-          + blob  = true
-          + file  = false
-          + queue = false
-          + table = false
-        }
-    }
-
-  # azurerm_app_service_plan.plan will be created
-  + resource "azurerm_app_service_plan" "plan" {
-      + id                           = (known after apply)
-      + kind                         = "functionapp"
-      + location                     = "westus2"
-      + maximum_elastic_worker_count = (known after apply)
-      + maximum_number_of_workers    = (known after apply)
-      + name                         = (known after apply)
-      + resource_group_name          = (known after apply)
-
-      + sku {
-          + capacity = (known after apply)
-          + size     = "Y1"
-          + tier     = "Dynamic"
-        }
-    }
-
-  # azurerm_application_insights.application_insights will be created
-  + resource "azurerm_application_insights" "application_insights" {
-      + app_id                                = (known after apply)
-      + application_type                      = "web"
-      + connection_string                     = (sensitive value)
-      + daily_data_cap_in_gb                  = (known after apply)
-      + daily_data_cap_notifications_disabled = (known after apply)
-      + disable_ip_masking                    = false
-      + force_customer_storage_for_profiler   = false
-      + id                                    = (known after apply)
-      + instrumentation_key                   = (sensitive value)
-      + internet_ingestion_enabled            = true
-      + internet_query_enabled                = true
-      + local_authentication_disabled         = false
-      + location                              = "westus2"
-      + name                                  = (known after apply)
-      + resource_group_name                   = (known after apply)
-      + retention_in_days                     = 90
-      + sampling_percentage                   = 100
-    }
-
-  # azurerm_function_app.function will be created
-  + resource "azurerm_function_app" "function" {
-      + app_service_plan_id             = (known after apply)
-      + app_settings                    = (known after apply)
-      + client_affinity_enabled         = (known after apply)
-      + custom_domain_verification_id   = (known after apply)
-      + default_hostname                = (known after apply)
-      + enable_builtin_logging          = true
-      + enabled                         = true
-      + https_only                      = true
-      + id                              = (known after apply)
-      + key_vault_reference_identity_id = (known after apply)
-      + kind                            = (known after apply)
-      + location                        = "westus2"
-      + name                            = (known after apply)
-      + outbound_ip_addresses           = (known after apply)
-      + possible_outbound_ip_addresses  = (known after apply)
-      + resource_group_name             = (known after apply)
-      + site_credential                 = (known after apply)
-      + storage_account_access_key      = (sensitive value)
-      + storage_account_name            = (known after apply)
-      + storage_connection_string       = (sensitive value)
-      + version                         = "~2"
-
-      + auth_settings (known after apply)
-
-      + connection_string (known after apply)
-
-      + identity (known after apply)
-
-      + site_config (known after apply)
-
-      + source_control (known after apply)
-    }
-
-  # azurerm_resource_group.default will be created
-  + resource "azurerm_resource_group" "default" {
-      + id       = (known after apply)
-      + location = "westus2"
-      + name     = (known after apply)
-    }
-
-  # azurerm_storage_account.storage_account will be created
-  + resource "azurerm_storage_account" "storage_account" {
-      + access_tier                       = (known after apply)
-      + account_kind                      = "StorageV2"
-      + account_replication_type          = "LRS"
-      + account_tier                      = "Standard"
-      + allow_blob_public_access          = false
-      + enable_https_traffic_only         = true
-      + id                                = (known after apply)
-      + infrastructure_encryption_enabled = false
-      + is_hns_enabled                    = false
-      + large_file_share_enabled          = (known after apply)
-      + location                          = "westus2"
-      + min_tls_version                   = "TLS1_0"
-      + name                              = (known after apply)
-      + nfsv3_enabled                     = false
-      + primary_access_key                = (sensitive value)
-      + primary_blob_connection_string    = (sensitive value)
-      + primary_blob_endpoint             = (known after apply)
-      + primary_blob_host                 = (known after apply)
-      + primary_connection_string         = (sensitive value)
-      + primary_dfs_endpoint              = (known after apply)
-      + primary_dfs_host                  = (known after apply)
-      + primary_file_endpoint             = (known after apply)
-      + primary_file_host                 = (known after apply)
-      + primary_location                  = (known after apply)
-      + primary_queue_endpoint            = (known after apply)
-      + primary_queue_host                = (known after apply)
-      + primary_table_endpoint            = (known after apply)
-      + primary_table_host                = (known after apply)
-      + primary_web_endpoint              = (known after apply)
-      + primary_web_host                  = (known after apply)
-      + queue_encryption_key_type         = "Service"
-      + resource_group_name               = (known after apply)
-      + secondary_access_key              = (sensitive value)
-      + secondary_blob_connection_string  = (sensitive value)
-      + secondary_blob_endpoint           = (known after apply)
-      + secondary_blob_host               = (known after apply)
-      + secondary_connection_string       = (sensitive value)
-      + secondary_dfs_endpoint            = (known after apply)
-      + secondary_dfs_host                = (known after apply)
-      + secondary_file_endpoint           = (known after apply)
-      + secondary_file_host               = (known after apply)
-      + secondary_location                = (known after apply)
-      + secondary_queue_endpoint          = (known after apply)
-      + secondary_queue_host              = (known after apply)
-      + secondary_table_endpoint          = (known after apply)
-      + secondary_table_host              = (known after apply)
-      + secondary_web_endpoint            = (known after apply)
-      + secondary_web_host                = (known after apply)
-      + shared_access_key_enabled         = true
-      + table_encryption_key_type         = "Service"
-
-      + blob_properties (known after apply)
-
-      + customer_managed_key (known after apply)
-
-      + network_rules (known after apply)
-
-      + queue_properties (known after apply)
-
-      + routing (known after apply)
-
-      + share_properties (known after apply)
-    }
-
-  # azurerm_storage_blob.storage_blob will be created
-  + resource "azurerm_storage_blob" "storage_blob" {
-      + access_tier            = (known after apply)
-      + content_type           = "application/octet-stream"
-      + id                     = (known after apply)
-      + metadata               = (known after apply)
-      + name                   = "server.zip"
-      + parallelism            = 8
-      + size                   = 0
-      + source                 = ".terraform/modules/ballroom/dist/server.zip"
-      + storage_account_name   = (known after apply)
-      + storage_container_name = "serverless"
-      + type                   = "Block"
-      + url                    = (known after apply)
-    }
-
-  # azurerm_storage_container.storage_container will be created
-  + resource "azurerm_storage_container" "storage_container" {
-      + container_access_type   = "private"
-      + has_immutability_policy = (known after apply)
-      + has_legal_hold          = (known after apply)
-      + id                      = (known after apply)
-      + metadata                = (known after apply)
-      + name                    = "serverless"
-      + resource_manager_id     = (known after apply)
-      + storage_account_name    = (known after apply)
-    }
-
-  # random_string.rand will be created
-  + resource "random_string" "rand" {
-      + id          = (known after apply)
-      + length      = 24
-      + lower       = true
-      + min_lower   = 0
-      + min_numeric = 0
-      + min_special = 0
-      + min_upper   = 0
-      + number      = true
-      + numeric     = true
-      + result      = (known after apply)
-      + special     = false
-      + upper       = false
-    }
+...
 
 Plan: 8 to add, 0 to change, 0 to destroy.
 
 Changes to Outputs:
   + website_url = (known after apply)
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
-
-Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
 ```
-</details>
 
 Next, deploy with:
 
@@ -2460,3 +2237,130 @@ terraform apply -auto-approve
 
 Note: It’s safer to run `terraform plan` first. The `-auto-approve` flag is used here only for brevity.
 
+Result:
+
+```pwsh
+terraform apply -auto-approve
+module.ballroom.data.archive_file.code_package: Reading...
+module.ballroom.data.archive_file.code_package: Read complete after 0s [id=49183daed0ea5fa5dd9bcfa243676c338f748ffa]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+...
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + website_url = (known after apply)
+random_string.rand: Creating...
+random_string.rand: Creation complete after 0s [id=l7djnubkwxqbwoxc53xsfg0n]
+azurerm_resource_group.default: Creating...
+azurerm_resource_group.default: Creation complete after 1s [id=/subscriptions/e091f6e7-031a-4924-97bb-8c983ca5d21a/resourceGroups/ballroominaction-l7djnub]
+azurerm_app_service_plan.plan: Creating...
+azurerm_application_insights.application_insights: Creating...
+azurerm_storage_account.storage_account: Creating...
+azurerm_app_service_plan.plan: Creation complete after 5s [id=/subscriptions/e091f6e7-031a-4924-97bb-8c983ca5d21a/resourceGroups/ballroominaction-l7djnub/providers/Microsoft.Web/serverfarms/ballroominaction-l7djnub]
+azurerm_application_insights.application_insights: Still creating... [00m10s elapsed]
+azurerm_storage_account.storage_account: Still creating... [00m10s elapsed]
+azurerm_application_insights.application_insights: Still creating... [00m20s elapsed]
+azurerm_storage_account.storage_account: Still creating... [00m20s elapsed]
+azurerm_storage_account.storage_account: Creation complete after 23s [id=/subscriptions/e091f6e7-031a-4924-97bb-8c983ca5d21a/resourceGroups/ballroominaction-l7djnub/providers/Microsoft.Storage/storageAccounts/l7djnubkwxqbwoxc53xsfg0n]
+data.azurerm_storage_account_sas.storage_sas: Reading...
+azurerm_storage_container.storage_container: Creating...
+data.azurerm_storage_account_sas.storage_sas: Read complete after 0s [id=919044c588c67511b5f961b333efdb9e9e57ec4a8dc6a951a4cd5de8f7c15a43]
+azurerm_storage_container.storage_container: Creation complete after 0s [id=https://l7djnubkwxqbwoxc53xsfg0n.blob.core.windows.net/serverless]
+azurerm_storage_blob.storage_blob: Creating...
+azurerm_storage_blob.storage_blob: Creation complete after 1s [id=https://l7djnubkwxqbwoxc53xsfg0n.blob.core.windows.net/serverless/server.zip]
+azurerm_application_insights.application_insights: Creation complete after 25s [id=/subscriptions/e091f6e7-031a-4924-97bb-8c983ca5d21a/resourceGroups/ballroominaction-l7djnub/providers/Microsoft.Insights/components/ballroominaction-l7djnub]
+azurerm_function_app.function: Creating...
+azurerm_function_app.function: Still creating... [00m10s elapsed]
+azurerm_function_app.function: Still creating... [00m20s elapsed]
+azurerm_function_app.function: Still creating... [00m30s elapsed]
+azurerm_function_app.function: Still creating... [00m40s elapsed]
+azurerm_function_app.function: Still creating... [00m50s elapsed]
+azurerm_function_app.function: Creation complete after 52s [id=/subscriptions/e091f6e7-031a-4924-97bb-8c983ca5d21a/resourceGroups/ballroominaction-l7djnub/providers/Microsoft.Web/sites/ballroominaction-l7djnub]
+
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+website_url = "https://ballroominaction-l7djnub.azurewebsites.net/"
+```
+<img src='images/1755165436496.png' alt='alt text' width='600'/>
+
+Then run `terraform destroy -auto-approve` to tear down the infrastructure, including resource groups.
+
+#### 5.5 Combining Azure Resource Manager (ARM) with Terraform
+
+Azure Resource Manager (ARM) is Microsoft’s infrastructure-as-code tool for provisioning Azure resources with JSON files. It’s similar to AWS CloudFormation or GCP Deployment Manager, so many concepts transfer between them.
+
+While Microsoft now promotes Terraform over ARM, ARM is still useful in certain cases:
+
+* Deploying resources not yet supported by Terraform
+* Migrating legacy ARM code to Terraform
+* Generating configuration code
+
+#### 5.5.1 Deploying unsupported resources
+
+In Terraform’s early days, provider support—especially for major clouds—was limited. For Azure, many resources remained unsupported in Terraform long after their general availability.
+
+For instance, Azure IoT Hub became GA in 2016 but wasn’t supported in the Azure Terraform provider until more than two years later. During that gap, the best approach to deploy an IoT Hub from Terraform was to run an ARM template through Terraform.
+
+```hcl
+resource "azurerm_template_deployment" "template_deployment" {
+  name                = "terraform-ARM-deployment"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  template_body       = file("${path.module}/templates/iot.json")
+
+  deployment_mode = "Incremental"
+
+  parameters = {
+    IotHubs_my_iot_hub_name = "ghetto-hub"
+  }
+}
+```
+
+This approach bridged the gap between Terraform’s capabilities and ARM’s. The same idea applied to AWS and GCP by using CloudFormation or Deployment Manager for unsupported resources.
+
+As Terraform matured, provider coverage expanded to include almost all resources. Still, there are cases where deploying an ARM template from Terraform is useful—such as when a native Terraform resource is poorly implemented, buggy, or missing features. In those situations, ARM templates can be the better option.
+
+#### 5.5.2 Migrating from legacy code
+
+Before Terraform, you may have used another deployment tool—such as ARM templates or AWS CloudFormation. Migrating those systems into Terraform without heavy upfront effort can be done with the **strangler façade pattern**.
+
+This pattern gradually replaces parts of a legacy system with components from the new system until the old system is fully replaced and can be retired. The “strangler” name comes from the idea that the new system slowly overtakes and “chokes out” the old one.
+
+It’s a common approach for systems—especially APIs and services—that must maintain their SLA during migration.
+
+<img src='images/1755165712712.png' alt='alt text' width='700'/>
+
+In Terraform, the strangler façade pattern can be applied by wrapping legacy ARM or CloudFormation code with resources like `azurerm_template_deployment` or `aws_cloudformation_stack`.
+
+From there, you can gradually replace individual resources from the legacy templates with native Terraform resources until the entire deployment is managed directly by Terraform.
+
+#### 5.5.3 Generating configuration code
+
+One of Terraform’s biggest pain points is the effort required to translate your desired setup into configuration code. It’s often faster to click through the cloud console, set everything up, and then export the result as a template.
+
+Several open source tools, like [Terraformer](https://github.com/GoogleCloudPlatform/terraformer), aim to automate this process. HashiCorp has also announced plans to improve Terraform’s native import feature to generate configuration code directly from existing resources.
+
+Azure resource groups already support this workflow—you can export any deployed resource group as an ARM template file and then deploy that template through Terraform.
+
+<img src='images/1755165990576.png' alt='alt text' width='600'/>
+
+**Warning:** Generated ARM templates aren’t always a perfect 1:1 match with what’s actually deployed in a resource group. For accurate details on what’s supported, see the Azure ARM documentation:
+[https://docs.microsoft.com/en-us/azure/templates](https://docs.microsoft.com/en-us/azure/templates)
+
+The advantage—and potential drawback—of this method is that you can design your entire project in the Azure console and deploy it through Terraform with only minimal wrapper code. Later, you can migrate this quick prototype to native Terraform using the strangler façade pattern described earlier.
+
+It’s essentially a rapid prototyping technique for infrastructure.
+
+##### The dark road of generated code
+
+Beyond Azure Resource Manager, many tools promise to generate configuration code automatically. If you’re tempted to go this route, it’s worth considering **Terraform modules** instead. Modules are the preferred way to reuse code in Terraform and can be very powerful, especially with features like dynamic blocks and `for` expressions.
+
+In reality, writing Terraform code is the easy part—the challenge lies in deciding what you want to build. Generated code may look impressive, but it’s often of limited value. Complex automation and code generation tools usually lag behind the latest versions of the technologies they target.
+
+Think of it like website builders—WordPress, Wix, and Squarespace make it easy for non-technical users to create sites, but they haven’t replaced skilled frontend developers. Likewise, code generation tools can help speed up Terraform work, but they don’t replace the need to understand and write clean Terraform code yourself.
